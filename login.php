@@ -30,9 +30,11 @@ if(isset($_GET['statu'])){
                 <div id="login-column" class="col-md-6">
                     <div id="login-box" class="col-md-12">
                         <form id="login-form" class="form" action="./functions/auth/authontication.php" method="post">
-                            <h3 class="text-center text-info">Login</h3>
-                            <?php  echo isset($success)?$success:'';  ?> 
                         
+                            <h3 class="text-center text-info">Login</h3>
+                            <div class="form-group">
+                            <?php  echo isset($success)?$success:'';  ?> 
+                            </div>
                             <div class="form-group">
                                 <label for="username"  class="text-info">Username:</label><br>
                                 <input type="text"  name="username" id="username" class="form-control" required>
