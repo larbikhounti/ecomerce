@@ -47,7 +47,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
       $stm->bindParam(':password',$_POST['password'], PDO::PARAM_STR);
       $stm->execute();
       //redirect to login page  [code 1 = success]
-      header("Location:"."../../login.php?statu=congrats login now");
+      header("Location:"."../../login.php?statu=1");
     }catch(Exception $e){
         echo $e;
         //header("Location:"."../../login.php?code=0");
