@@ -9,6 +9,11 @@ if(isset($_GET['statu'])){
     <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
     <span aria-hidden='true'>&times;</span>
     </button>";
+    $faild = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+    <strong>opps!</strong> Something wrong try again.
+    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+    <span aria-hidden='true'>&times;</span>
+    </button>";
 }
 
 ?>
@@ -34,7 +39,7 @@ if(isset($_GET['statu'])){
                         
                             <h3 class="text-center text-info">Login</h3>
                             <div class="form-group">
-                            <?php  echo isset($success)?$success:'';  ?> 
+                            <?php  echo  isset($_GET['statu'])?isset($success) && $state == 1?$success:$faild :''  ?> 
                             </div>
                             <div class="form-group">
                                 <label for="username"  class="text-info">Username:</label><br>
@@ -42,7 +47,7 @@ if(isset($_GET['statu'])){
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">Password:</label><br>
-                                <input type="text"  name="password" id="password" class="form-control" required>
+                                <input type="password"  name="password" id="password" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <input type="text" name="method" value="login" class="form-control" hidden>

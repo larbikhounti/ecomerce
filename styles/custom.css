@@ -20,8 +20,10 @@ body {
   .text-info {
     color: #d3d3d3!important;
 }
-.form-control { 
-    background-color: #29313a;
+.form-control {
+  background-color: #ffffff;
+  color: #5a5757;
+  font-weight: 500;
 }
 .buttom{
     display: flex;
@@ -31,3 +33,4 @@ body {
 .bold {
     font-weight: bolder;
 }
+

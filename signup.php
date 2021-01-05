@@ -38,7 +38,7 @@ include "./const/navbar.php";
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">Password:</label><br>
-                                <input type="text"  name="password" id="password" class="form-control" required>
+                                <input type="password"  name="password" id="password" class="form-control" required>
                             </div>
                             
                                 <input type="text" name="method" value="signup" class="form-control" hidden>
