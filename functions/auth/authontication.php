@@ -83,10 +83,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $stm->execute();
     
     //redirect to login page  [code 1 = success]
-    header("Location:"."../../pages/profile.php?state=1");
+    header("Location:"."../../pages/profile.php?statu=1");
   }catch(Exception $e){
       echo $e;
-      //header("Location:"."../../login.php?code=0");
+      header("Location:"."../../profile.php?statu=0");
   }
 
       }
@@ -100,7 +100,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
   //check if there is A get reaquest of name logout and if its equal to 1. [1 = logout]
   if(isset($_GET["logout"]) && $_GET["logout"] == 1){
-    session_unset();
     session_destroy();
     header("Location:"."../../login.php");
   }

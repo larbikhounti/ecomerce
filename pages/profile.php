@@ -2,6 +2,20 @@
 session_start();
 if(!isset($_SESSION["id"]) || $_SESSION["privilege"] != 1 ){
     header("Location:"."../login.php");
+}elseif(isset($_GET['statu'])){
+
+    $state = $_GET['statu'];
+    $success = "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+    <strong>Greet!</strong> your profile have being updated.
+    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+    <span aria-hidden='true'>&times;</span>
+    </button>";
+
+    $faild = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+    <strong>opps!</strong> Something wrong try again.
+    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+    <span aria-hidden='true'>&times;</span>
+    </button>";
 }
 include "../const/bootstrap.php";
 include "../const/navbar.php";
@@ -31,6 +45,7 @@ include "../const/navbar.php";
                         <form id="login-form" class="form" action="../functions/auth/authontication.php" method="post">
                             <h3 class="text-center text-info">Profile</h3>
                             <div class="form-group">
+                            <?php  echo  isset($_GET['statu'])?isset($success) && $state == 1?$success:$faild :''  ?> 
                                 <label for="username"  class="text-info">Username:</label><br>
                                 <input type="text"  name="username"  value=" <?php echo $_SESSION["username"]; ?> " id="username" class="form-control bg-light" >
                             </div>
