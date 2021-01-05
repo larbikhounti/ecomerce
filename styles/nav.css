@@ -1,0 +1,14 @@
+.bg-light {
+    background-color: #2f333a!important;  
+}
+.navbar-light .navbar-brand,#navbarSupportedContent > ul > li.nav-item > a{
+    color: azure;
+}
+.dropdown-toggle {
+    white-space: nowrap;
+    margin-right: 60px;
+}
+#navbarSupportedContent > div > div.nav-link.dropdown-toggle{
+    color: azure;
+    
+}

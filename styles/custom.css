@@ -1,7 +1,7 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #595959;
+    background-color: #000000;
     height: 150vh;
   }
   #login .container #login-row #login-column #login-box {
@@ -21,7 +21,7 @@ body {
     color: #d3d3d3!important;
 }
 .form-control { 
-    background-color: #dde6f0;
+    background-color: #29313a;
 }
 .buttom{
     display: flex;

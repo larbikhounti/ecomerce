@@ -1,5 +1,7 @@
 <?php
-
+// this file is used for authontication only 
+// mohamed khounti
+// 1/4/2021
 use FFI\Exception;
 
 session_start();
@@ -20,14 +22,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
           //save id 
          $data =  $stm->fetch() ;
          $userid =  $data['id'];
-         $_SESSION["id"] =$userid;
-          // if userid is set
-         if(isset($_SESSION["id"])){
+         $privilege =  $data['privilege']; // get the privilege (is he/she admin or not)
+         $fullname =  $data['fullname']; // get the fullname 
+         $_SESSION["id"] =$userid; // save id in the session to use it later.
+         $_SESSION["privilege"]  = $privilege; // save privilege in the session
+         $_SESSION["fullname"]  = $fullname; // save full name in the session
+          // if user id and privilege is set 
+         if(isset($_SESSION["id"]) && isset($_SESSION["privilege"])){
           // redirect to welcome page
           header("Location:"."../../pages/welcomepage.php");
           exit();
          }
       }else{
+        // if the request not coming from POST redirect to logic page
         header("Location:"."../../login.php");
       }
     }catch(Exception $e){
@@ -56,4 +63,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   
 } else{
     header("Location:"."../../login.php");
+}
+
+//check if the request coming from GET
+if($_SERVER['REQUEST_METHOD'] == 'GET'){
+  //check if there is A get reaquest of name logout and if its equal to 1. [1 = logout]
+  if(isset($_GET["logout"]) && $_GET["logout"] == 1){
+    session_unset();
+    session_destroy();
+    header("Location:"."../../login.php");
+  }
+  
 }
