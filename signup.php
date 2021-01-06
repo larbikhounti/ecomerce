@@ -1,7 +1,7 @@
 <?php
 session_start();
 include "./const/bootstrap.php";
-include "./const/navbar.php";
+
 
 ?>
 
