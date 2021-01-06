@@ -47,19 +47,19 @@ include "../const/navbar.php";
                             <div class="form-group">
                             <?php  echo  isset($_GET['statu'])?isset($success) && $state == 1?$success:$faild :''  ?> 
                                 <label for="username"  class="text-info">Username:</label><br>
-                                <input type="text"  name="username"  value=" <?php echo $_SESSION["username"]; ?> " id="username" class="form-control bg-light" >
+                                <input type="text"  name="username"  value="<?php echo $_SESSION["username"]; ?>" id="username" class="form-control bg-light" >
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">full name:</label><br>
-                                <input type="text"  name="fullname" value=" <?php echo $_SESSION["fullname"]; ?> "  class="form-control" >
+                                <input type="text"  name="fullname" value="<?php echo $_SESSION["fullname"]; ?>"  class="form-control" >
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">email:</label><br>
-                                <input type="email"  name="email" value=" <?php echo $_SESSION["email"]; ?>"  id="email" class="form-control" >
+                                <input type="email"  name="email" value="<?php echo $_SESSION["email"]; ?>"  id="email" class="form-control" >
                             </div>
                             <div class="form-group">
                                 <label for="password" class="text-info">Password:</label><br>
-                                <input type="password"  value=" <?php echo $_SESSION["password"]; ?>" name="password"  id="password" class="form-control" >
+                                <input type="password"  value="<?php echo $_SESSION["password"]; ?>" name="password"  id="password" class="form-control" >
                             </div>
                             
                                 <input type="text" name="method" value="update" class="form-control" hidden>
