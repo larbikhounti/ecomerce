@@ -20,7 +20,7 @@ include "../const/navbar.php";
 <body>
 <?php echo $navbar; ?>
 <div class="container">
-        <div class="row mt-5">
+    <div class="row mt-5">
         <div class="col-md-4 col-sm-12">
             <div class="">
                 <div class="card text-white bg-danger mb-3 shadow" style="max-width: 20rem;">
@@ -51,10 +51,28 @@ include "../const/navbar.php";
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-6 col-sm-12">
+            <div class="">
+                <canvas id="myChart1"  height="160px"></canvas>
+             </div>
         </div>
+        <div class="col-md-6 col-sm-12">
+            <div class="">
+                <canvas id="myChart2"  height="160px" ></canvas>
+             </div>
+        </div>
+   
+
+    </div>
+ 
+        
 </div>
 <?php echo  $bootstrapJQ; ?>
 <?php echo  $bootstrapjS; ?>
+<script src="../scriptsjs/chart.js"></script>
+<script src="../scriptsjs/myscript.js"></script>
 </body>
 
 </html>
