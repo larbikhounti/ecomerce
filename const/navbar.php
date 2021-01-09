@@ -1,9 +1,9 @@
 <?php
 // nav bar
 $fullname = $_SESSION['fullname']; 
-$navbar = "<nav class='navbar navbar-expand-lg navbar-light bg-dark'>
+$navbar = "<nav class='navbar navbar-expand-lg navbar-light bg-dark sticky-top'>
 
-<a class='navbar-brand' href='#'><b>Dashboard</b></a>
+<a class='navbar-brand' href='../pages/welcomepage.php'><b>Dashboard</b></a>
 <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation'>
   <span class='navbar-toggler-icon'></span>
 </button>
@@ -11,7 +11,7 @@ $navbar = "<nav class='navbar navbar-expand-lg navbar-light bg-dark'>
 <div class='collapse navbar-collapse' id='navbarSupportedContent'>
   <ul class='navbar-nav mr-auto'>
     <li class='nav-item active'>
-      <a class='nav-link' href='#'>Home <span class='sr-only'>(current)</span></a>
+      <a class='nav-link' href='../pages/welcomepage.php'>Something <span class='sr-only'>(current)</span></a>
     </li>
     <li class='nav-item'>
       <a class='nav-link' href='../pages/members.php'>members</a>

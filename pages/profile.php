@@ -34,7 +34,7 @@ include "../const/navbar.php";
     <title>profile</title>
 </head>
 
-<body>
+<body class="bg-light">
  <?php echo $navbar; ?>
 
  <div id="login">

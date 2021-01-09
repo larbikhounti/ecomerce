@@ -31,15 +31,18 @@ try{
 <body>
 <?php echo $navbar; ?>
 
+<div class="table-responsive-sm">
 
-<table class="table">
-  <thead class="thead-dark">
+<table class="table ">
+  <thead class="thead-dark ">
     <tr>
       <th scope="col">ID</th>
       <th scope="col">Full name</th>
       <th scope="col">Email</th>
       <th scope="col">Username</th>
-      <th scope="col">Action</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+      <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
@@ -53,7 +56,11 @@ try{
             <td>". $key["username"] ."</td>
             <td>
             <a href='../functions/members/m_manager.php?id=". $key["id"] ."&action=0'><Button class='btn btn-danger'>delete</Button></a>
+            </td>
+            <td>
             <a href='../functions/members/m_updatePage.php?id=". $key["id"] ."'><Button class='btn btn-success'>Edit</Button></a>
+            </td>
+            <td>
             <a href='../functions/members/m_manager.php?id=". $key["id"] ."&action=1'><Button class='btn btn-warning'>make admin</Button></a>
             </td>
           </tr>";
@@ -62,6 +69,8 @@ try{
  
   </tbody>
 </table>
+
+</div>
 
 <?php echo  $bootstrapJQ; ?>
 <?php echo  $bootstrapjS; ?>
