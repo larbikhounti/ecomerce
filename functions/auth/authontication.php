@@ -46,7 +46,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     }catch(Exception $e){
       echo $e;
     }
-  
+    
 
   }
   // check if its coming from signup page 

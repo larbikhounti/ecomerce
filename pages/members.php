@@ -3,7 +3,9 @@ session_start();
 include "../const/bootstrap.php";
 include "../const/navbar.php";
 include "../includes/mysql_connections/connect.php";
-
+if(!isset($_SESSION["id"]) || $_SESSION["privilege"] != 1 ){
+  header("Location:"."../login.php");
+}
 // get all the users who are not admin
 try{
     $stm = $dbc->prepare('SELECT id,username,email,fullname FROM users where privilege != 1 ');
@@ -49,12 +51,13 @@ try{
             <td>". $key["fullname"] ."</td>
             <td>". $key["email"] ."</td>
             <td>". $key["username"] ."</td>
-            <td><a href='../functions/members/m_manager.php?id=". $key["id"] ."&action=0'><Button class='btn btn-danger'>delete</Button></a>
-            <a href='#'". $key["id"] ."&action=1'><Button class='btn btn-success'>edite</Button></a>
+            <td>
+            <a href='../functions/members/m_manager.php?id=". $key["id"] ."&action=0'><Button class='btn btn-danger'>delete</Button></a>
+            <a href='../functions/members/m_updatePage.php?id=". $key["id"] ."'><Button class='btn btn-success'>Edit</Button></a>
             <a href='../functions/members/m_manager.php?id=". $key["id"] ."&action=1'><Button class='btn btn-warning'>make admin</Button></a>
             </td>
           </tr>";
-        }
+        }+6
       ?>
  
   </tbody>
