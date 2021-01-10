@@ -1,7 +1,6 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #000000;
     height: 150vh;
   }
   #login .container #login-row #login-column #login-box {
@@ -33,4 +32,8 @@ body {
 .bold {
     font-weight: bolder;
 }
+.mybox{
+  background-color: #ecf0f1 !important;
+}
+
 
