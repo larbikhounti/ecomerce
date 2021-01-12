@@ -59,9 +59,9 @@ try{
             # code...
             echo "<tr>
             <th scope='row'>". $key["id"] ."</th>
-            <td><img src=".$key["primary_image"]." width='55px' height ='55px' /></td>
-            <td>". substr($key["title"], 0, 20)."...</td>
-            <td>". substr($key["descreption"], 0, 20)."...</td>
+            <td><img  class='image'src=".$key["primary_image"]." /></td>
+            <td>". substr($key["title"], 0, 30)."...</td>
+            <td>". substr($key["descreption"], 0, 35)."...</td>
             <td>".$key["price"]."</td>
             <td>".$key["quantity"]."</td>
             <td>".$key["date_added"]."</td>

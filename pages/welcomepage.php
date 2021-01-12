@@ -98,7 +98,9 @@ include "../const/navbar.php";
 <?php echo  $bootstrapJQ; ?>
 <?php echo  $bootstrapjS; ?>
 <script src="../scriptsjs/chart.js"></script>
-<script src="../scriptsjs/myscript.js"></script>
+<script src="../scriptsjs/myscript.js">
+showgraphs();
+</script>
 </body>
 
 </html>
