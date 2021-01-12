@@ -32,6 +32,7 @@ try{
     <?php echo  $bootstrapCSS; ?>
     <link rel='stylesheet' type='text/css' href='../styles/mambers.css'>
     <link rel='stylesheet' type='text/css' href='../styles/nav.css'>
+    <link rel='stylesheet' type='text/css' href='../styles/products.css'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <title>products</title>
 </head>
@@ -59,8 +60,8 @@ try{
             echo "<tr>
             <th scope='row'>". $key["id"] ."</th>
             <td><img src=".$key["primary_image"]." width='55px' height ='55px' /></td>
-            <td>".$key["title"]."</td>
-            <td>".$key["descreption"]."</td>
+            <td>". substr($key["title"], 0, 20)."...</td>
+            <td>". substr($key["descreption"], 0, 20)."...</td>
             <td>".$key["price"]."</td>
             <td>".$key["quantity"]."</td>
             <td>".$key["date_added"]."</td>
