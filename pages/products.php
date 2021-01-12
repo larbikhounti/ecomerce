@@ -32,24 +32,23 @@ try{
     <?php echo  $bootstrapCSS; ?>
     <link rel='stylesheet' type='text/css' href='../styles/mambers.css'>
     <link rel='stylesheet' type='text/css' href='../styles/nav.css'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <title>products</title>
 </head>
 <body>
 <?php echo $navbar; ?>
-
 <div class="table-responsive-sm">
-
 <table class="table ">
   <thead class="thead-dark ">
     <tr>
       <th scope="col">ID</th>
-      <th scope="col">Primary Image</th>
+      <th scope="col">Primary Image <i class="bi bi-image"></i></th>
       <th scope="col">Title</th>
       <th scope="col">Descreption</th>
       <th scope="col">Price</th>
       <th scope="col">Quantity</th>
       <th scope="col">Date Added</th>
-      <th scope="col"></th>
+      <th scope="col"><button class="btn btn-success">add <i class="bi bi-pencil-square"></i></button></th>
       <th scope="col"></th>
     </tr>
   </thead>
@@ -57,19 +56,19 @@ try{
       <?php 
          foreach ($data as $key ) {
             # code...
-            echo "  <tr>
+            echo "<tr>
             <th scope='row'>". $key["id"] ."</th>
-            <td><img src=".$key["primary_image"]." width ='50px' height ='50px /></td>
+            <td><img src=".$key["primary_image"]." width='55px' height ='55px' /></td>
             <td>".$key["title"]."</td>
             <td>".$key["descreption"]."</td>
             <td>".$key["price"]."</td>
             <td>".$key["quantity"]."</td>
             <td>".$key["date_added"]."</td>
             <td>
-            <a href='../functions/members/m_manager.php?id=". $key["id"] ."&action=0'><Button class='btn btn-danger'>delete</Button></a>
+            <a href='../functions/members/m_manager.php?id=". $key["id"] ."&action=0'><Button class='btn btn-danger'>delete <i class='bi bi-file-earmark-x'></i></Button></a>
             </td>
             <td>
-            <a href='../functions/members/m_updatePage.php?id=". $key["id"] ."'><Button class='btn btn-success'>Edit</Button></a>
+            <a href='../functions/members/m_updatePage.php?id=". $key["id"] ."'><Button class='btn bg-dark text-white '>Edit <i class='bi bi-pencil-fill'></i></Button></a>
             </td>
 
           </tr>";
