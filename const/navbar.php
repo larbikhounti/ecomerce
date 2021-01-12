@@ -17,7 +17,7 @@ $navbar = "<nav class='navbar navbar-expand-lg navbar-light bg-dark sticky-top'>
       <a class='nav-link' href='../pages/members.php'>members</a>
     </li> 
     <li class='nav-item'>
-    <a class='nav-link' href='#'>products</a>
+    <a class='nav-link' href='../pages/products.php'>products</a>
   </li> 
   </ul>
   <div class='nav-item dropdown'>
