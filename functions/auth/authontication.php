@@ -13,36 +13,61 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   if($_POST['method']  == 'login'){
     // get the user from databse 
     try{
-      $stm = $dbc->prepare('SELECT * FROM users  where username = :username AND password = :password');
-      $stm->bindParam(':username',$_POST['username'], PDO::PARAM_STR);
-      $stm->bindParam(':password',$_POST['password'], PDO::PARAM_STR);
-      $stm->execute();
-      //check if there is a user 
-      if($stm->rowcount() > 0){
-          //save id 
-         $data =      $stm->fetch() ;
-         $userid =    $data['id'];
-         $privilege = $data['privilege']; // get the privilege (is he/she admin or not)
-         $fullname =  $data['fullname']; // get the fullname 
-         $username =  $data['username']; // get username
-         $email    =  $data['email'];
-         $password =  $data['password']; // get password
-         $_SESSION["id"] =$userid; // save id in the session to use it later.
-         $_SESSION["privilege"]  = $privilege; // save privilege in the session
-         $_SESSION["fullname"]  = $fullname; // save full name in the session
-         $_SESSION["username"]  = $username; // save username in session
-         $_SESSION["email"]  = $email; // save email in session
-         $_SESSION["password"]  = $password; // save email in session
-          // if user id and privilege is set 
-         if(isset($_SESSION["id"]) && isset($_SESSION["privilege"])){
-          // redirect to welcome page
-          header("Location:"."../../pages/welcomepage.php");
-          
-         }
-      }else{
-        // if the request not coming from POST redirect to logic page
-        header("Location:"."../../login.php?statu=0");
+      // check if username send in correct way
+      if(isset($_POST['username'])){
+        //check if username sent by user is a string and not empty
+        if(validatestring($_POST['username'])){
+          //if soo search for him in database by username
+          $stm = $dbc->prepare('SELECT * FROM users  where username = :username');
+          $stm->bindParam(':username',$_POST['username'], PDO::PARAM_STR);
+          $stm->execute();   
+             //if the user exist
+            if($stm->rowcount() > 0){
+              // we fetch the data
+              $data = $stm->fetch(PDO::FETCH_ASSOC);
+              // we take the password sended by the user
+              $password = $data['password'];
+              // we compare the password sended by the user with the one we have in our database
+              if(password_verify($_POST["password"],$password)){ // if its the same 
+                        //save all his data in the session to use later 
+                        $userid =    $data['id'];// get the id
+                        $privilege = $data['privilege']; // get the privilege (is he/she admin or not)
+                        $fullname =  $data['fullname']; // get the fullname 
+                        $username =  $data['username']; // get username
+                        $email    =  $data['email'];
+                        $password =  $data['password']; // get password
+                        $_SESSION["id"] =$userid; // save id in the session to use it later.
+                        $_SESSION["privilege"]  = $privilege; // save privilege in the session
+                        $_SESSION["fullname"]  = $fullname; // save full name in the session
+                        $_SESSION["username"]  = $username; // save username in session
+                        $_SESSION["email"]  = $email; // save email in session
+                        $_SESSION["password"]  = $password; // save email in session
+                          // if user id and privilege is set 
+                        if(isset($_SESSION["id"]) && isset($_SESSION["privilege"])){
+                          // redirect to welcome page
+                          header("Location:"."../../pages/welcomepage.php");
+                          
+                        }
+        
+              }else{
+                // if password is wrong
+                // header("Location:"."../../login.php?statu=0");
+              }
+
+         }else{
+           // if there is no user
+          // header("Location:"."../../login.php?statu=0");
+          }
+
+        }else{
+        // if username not set back to login page
+        //header("Location:"."../../login.php?statu=0");
+        }
+      }else{ // if username not set back to login page
+       // header("Location:"."../../login.php?statu=0");
       }
+     
+    
     }catch(Exception $e){
       echo $e;
     }
@@ -51,20 +76,32 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
   }
   // check if its coming from signup page 
   elseif($_POST['method']  == 'signup'){
-    // try to add the user to database 
-    try{
-      $stm = $dbc->prepare('INSERT INTO users (username,fullname,email,password) values(:username,:fullname,:email,:password)');
-      $stm->bindParam(':username',$_POST['username'], PDO::PARAM_STR);
-      $stm->bindParam(':fullname',$_POST['fullname'], PDO::PARAM_STR);
-      $stm->bindParam(':email',$_POST['email'], PDO::PARAM_STR);
-      $stm->bindParam(':password',$_POST['password'], PDO::PARAM_STR);
-      $stm->execute();
-      //redirect to login page  [code 1 = success]
-      header("Location:"."../../login.php?statu=1");
-    }catch(Exception $e){
-        echo $e;
-        //header("Location:"."../../login.php?code=0");
+   // check if all data sent by the user are exist 
+    if(isset($_POST['username']) && isset($_POST['fullname']) && isset($_POST['email']) && isset($_POST['password'])){
+      //  check if all the data sent by the user is in the correct format expected 
+      if(validatestring($_POST['username']) && validatestring($_POST['fullname']) && validatestring($_POST['password']) &&
+      filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+        // if all ok  try to add the user to database 
+        try{
+         $stm = $dbc->prepare('INSERT INTO users (username,fullname,email,password) values(:username,:fullname,:email,:password)');
+         $stm->bindParam(':username',$_POST['username'], PDO::PARAM_STR);
+         $stm->bindParam(':fullname',$_POST['fullname'], PDO::PARAM_STR);
+         $stm->bindParam(':email',$_POST['email'], PDO::PARAM_STR);
+         $stm->bindParam(':password',password_hash($_POST['password'],PASSWORD_BCRYPT), PDO::PARAM_STR);
+         $stm->execute();
+         //redirect to login page  [code 1 = success]
+         header("Location:"."../../login.php?statu=1");
+       }catch(Exception $e){
+           echo $e;
+           header("Location:"."../../login.php?code=0");
+       }
+      }else{
+        header("Location:"."../../login.php?code=0");
+      }
+    }else {
+      header("Location:"."../../login.php?code=0");
     }
+   
   }
   //check if its comming from iupdate profile page
   elseif(($_POST['method']  == 'update')){
@@ -105,3 +142,17 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
   }
   
 }
+
+// callback validate filter
+function validatestring($value)
+{
+    // Expected format: string
+    $notstrings = (!is_string($value));
+    if (empty($value) || $notstrings) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
