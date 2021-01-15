@@ -3,7 +3,7 @@
 //1/12/2021
 // mohamed khounti
 
-// [3333333333333333, $_file[''],i,in_array(),]
+// [$_file[''],i,in_array(),]
 session_start();
 include "../const/bootstrap.php";
 include "../const/navbar.php";
@@ -43,13 +43,13 @@ try{
   <thead class="thead-dark ">
     <tr>
       <th scope="col">ID</th>
-      <th scope="col">Primary Image <i class="bi bi-image"></i></th>
+      <th scope="col">Primary Image</th>
       <th scope="col">Title</th>
       <th scope="col">Descreption</th>
       <th scope="col">Price</th>
       <th scope="col">Quantity</th>
       <th scope="col">Date Added</th>
-      <th scope="col"><button class="btn btn-success">add <i class="bi bi-pencil-square"></i></button></th>
+      <th scope="col"><a href="../functions/products/addProductPage.php"><button class="btn btn-success">add <i class="bi bi-pencil-square"></i></button></a></th>
       <th scope="col"></th>
     </tr>
   </thead>

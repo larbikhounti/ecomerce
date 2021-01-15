@@ -6,6 +6,7 @@ session_start();
  // connect to database 
  include "../../includes/mysql_connections/connect.php";
  include "../../const/bootstrap.php";
+ // check if the user is admin 
  if(!isset($_SESSION["id"]) || $_SESSION["privilege"] != 1 ){
     header("Location:"."../login.php");
 }elseif(isset($_GET['statu'])){
