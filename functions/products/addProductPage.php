@@ -25,14 +25,20 @@ if(!isset($_SESSION["id"]) || $_SESSION["privilege"] != 1 ){
 }
 // get all the products from database
 try{
-    $stm = $dbc->prepare('SELECT category.name as category_name,category.id as category_id,colors.id as colors_id,colors.name as colors_id FROM category,colors');
+    $stm = $dbc->prepare('SELECT id as color_id,name as color_name from colors ');
     $stm->execute();
-    $data = $stm ->fetchAll(PDO::FETCH_ASSOC);
+    $colors = $stm ->fetchAll(PDO::FETCH_ASSOC);
+    //print_r($colors);
+    $stm2 = $dbc->prepare('SELECT id as category_id , name as category_name from category');
+    $stm2->execute();
+    $categories = $stm2 ->fetchAll(PDO::FETCH_ASSOC);
+
+  //print_r($categories);
 
    // print_r($data);
   }catch(Exception $e){
       echo $e;
-      header("Location:"."../../welcomepage.php?statu=0");
+     // header("Location:"."../../welcomepage.php?statu=0");
   }
 
 
@@ -84,11 +90,11 @@ try{
                             <label for='Category' class='text-info font-weight-bold'>Categories:</label><br>
                             <div class='input-group  form-group buttom' id="Category">
                                     <div class="input-group-prepend">
-                                            <label class="input-group-text" for="inputGroupSelect01">Category</label>
+                                            <label class="input-group-text" for="inputGroupSelect01">Categories</label>
                                      </div>
                                             <select multiple class="custom-select" id="inputGroupSelect01">
                                             <?php 
-                                           foreach ($data as $category ) {
+                                           foreach ($categories as $category ) {
                                                 echo "
                                                 <option value=".$category["category_id"].">".$category["category_name"] ."</option>";
                                             }
@@ -98,11 +104,11 @@ try{
                             <label for='Category' class='text-info font-weight-bold'>Colors:</label><br>
                             <div class='input-group  form-group buttom'>
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text" for="inputGroupSelect01">color</label>
+                                    <label class="input-group-text" for="inputGroupSelect01">colors</label>
                                 </div>
                                      <select  multiple class='custom-select' id='inputGroupSelect01'>
                                             <?php 
-                                           foreach ($data as $color ) {
+                                           foreach ($colors as $color ) {
                                                 echo "
                                                 <option value=".$color["color_id"].">".$color["color_name"] ."</option>";
                                             }
