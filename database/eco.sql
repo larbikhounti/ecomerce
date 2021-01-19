@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 10, 2021 at 05:38 PM
--- Server version: 10.4.13-MariaDB
--- PHP Version: 7.4.8
+-- Generation Time: Jan 19, 2021 at 09:33 PM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 
+-- Database: `eco`
 --
 
 -- --------------------------------------------------------
@@ -112,16 +112,17 @@ CREATE TABLE `items` (
   `descreption` varchar(255) NOT NULL,
   `price` float NOT NULL,
   `quantity` int(11) NOT NULL,
-  `date_added` timestamp NOT NULL DEFAULT current_timestamp()
+  `date_added` timestamp NOT NULL DEFAULT current_timestamp(),
+  `primary_image` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`id`, `title`, `descreption`, `price`, `quantity`, `date_added`) VALUES
-(1, 'new shoes 2020 vans', '100% plastic free environment protected original ', 99, 12, '2021-01-10 15:57:20'),
-(2, 'new shoes 2020 vans', '100% plastic free environment protected original ', 99.99, 12, '2021-01-10 15:57:30');
+INSERT INTO `items` (`id`, `title`, `descreption`, `price`, `quantity`, `date_added`, `primary_image`) VALUES
+(1, 'new shoes 2020 vans', '100% plastic free environment protected original ', 99, 12, '2021-01-10 15:57:20', 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5816.png'),
+(2, 'new shoes 2020 vans', '100% plastic free environment protected original ', 99.99, 12, '2021-01-10 15:57:30', 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5816.png');
 
 -- --------------------------------------------------------
 
@@ -178,7 +179,7 @@ INSERT INTO `users` (`id`, `username`, `fullname`, `email`, `password`, `privile
 (23, 'zawjal2', 'fullname', 'Abdellatiflabrari@gmail.com', 'zawjal', 1),
 (25, 'simokhounti25', 'mohamed khounti', 'larbikhounti@gmail.com', 'simo', 0),
 (27, 'test24', 'my test', 'mytest@gmail.com', 'test', 0),
-(28, 'admin', 'mr.admin', 'admin@admin.com', 'admin', 1);
+(29, 'admin', 'mr.admin', 'larbkhounti@gmail.com', '$2y$10$Q7j4cegXjIabFyesAFFENOxrz98XoFiXAylVgOhbMyH5MkrdcvSBS', 1);
 
 --
 -- Indexes for dumped tables
@@ -290,7 +291,7 @@ ALTER TABLE `pictures`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- Constraints for dumped tables
