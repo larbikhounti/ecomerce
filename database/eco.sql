@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2021 at 09:33 PM
+-- Generation Time: Jan 19, 2021 at 10:10 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -20,6 +20,48 @@ SET time_zone = "+00:00";
 --
 -- Database: `eco`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category`
+--
+
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL,
+  `name` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `category`
+--
+
+INSERT INTO `category` (`id`, `name`) VALUES
+(1, 'tops'),
+(2, 'buttom'),
+(3, 'hats'),
+(4, 'shoes'),
+(5, 'glasses');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `category_item`
+--
+
+CREATE TABLE `category_item` (
+  `id` int(11) NOT NULL,
+  `items_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `category_item`
+--
+
+INSERT INTO `category_item` (`id`, `items_id`, `category_id`) VALUES
+(1, 1, 4),
+(2, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -186,6 +228,20 @@ INSERT INTO `users` (`id`, `username`, `fullname`, `email`, `password`, `privile
 --
 
 --
+-- Indexes for table `category`
+--
+ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `category_item`
+--
+ALTER TABLE `category_item`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `items_id` (`items_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
 -- Indexes for table `clients`
 --
 ALTER TABLE `clients`
@@ -246,6 +302,18 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `category`
+--
+ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `category_item`
+--
+ALTER TABLE `category_item`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
@@ -296,6 +364,13 @@ ALTER TABLE `users`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `category_item`
+--
+ALTER TABLE `category_item`
+  ADD CONSTRAINT `category_item_ibfk_1` FOREIGN KEY (`items_id`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `category_item_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `itemcolor`
