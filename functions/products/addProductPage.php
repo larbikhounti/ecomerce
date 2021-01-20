@@ -12,13 +12,13 @@ if(!isset($_SESSION["id"]) || $_SESSION["privilege"] != 1 ){
 
     $state = $_GET['statu'];
     $success = "<div class='alert alert-success alert-dismissible fade show' role='alert'>
-    <strong>Greet!</strong> profile updated.
+    <strong>Greet!</strong> product added updated.
     <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
     <span aria-hidden='true'>&times;</span>
     </button>";
 
     $faild = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
-    <strong>opps!</strong> Something wrong try again.
+    <strong>opps!</strong> Something went wrong try again.
     <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
     <span aria-hidden='true'>&times;</span>
     </button>";
@@ -62,13 +62,15 @@ try{
             <div id='login-row' class='row justify-content-center align-items-center'>
                 <div id='login-column' class='col-md-6'>
                     <div id='login-box' class='col-md-12 bg-dark'>
-                        <form id='login-form' class='form' action='../../functions/members/m_manager.php' method='post'>
+
+                        <form id='login-form'enctype="multipart/form-data" class='form' action='../../functions/products/p_manager.php' method='post'>
                             <h3 class='text-center text-info'>Add Product</h3>
                             <div class='form-group'>
                             <?php  echo  isset($_GET['statu'])?isset($success) && $state == 1?$success:$faild :''  ?> 
                             </div>
                             <div class='form-group'>
                                 <label for='primary_image' class='text-info font-weight-bold'>primary image:</label><br>
+                                <input type="hidden" name="MAX_FILE_SIZE" value="600000" />
                                 <input type='file'  name='primary_image'  id='primary_image'  accept="image/*" class="form-control-file bg-light" >
                             </div>
                             <div class='form-group'>
@@ -92,7 +94,7 @@ try{
                                     <div class="input-group-prepend">
                                             <label class="input-group-text" for="inputGroupSelect01">Categories</label>
                                      </div>
-                                            <select multiple class="custom-select" id="inputGroupSelect01">
+                                            <select  name="categories[]" multiple class="custom-select" id="inputGroupSelect01">
                                             <?php 
                                            foreach ($categories as $category ) {
                                                 echo "
@@ -106,7 +108,7 @@ try{
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputGroupSelect01">colors</label>
                                 </div>
-                                     <select  multiple class='custom-select' id='inputGroupSelect01'>
+                                     <select name="colors[]"  multiple class='custom-select' id='inputGroupSelect01'>
                                             <?php 
                                            foreach ($colors as $color ) {
                                                 echo "
@@ -118,7 +120,7 @@ try{
                             </div>
                             
                             <div class='form-group buttom'>
-                                <input type='submit' name='submit' class='btn btn-info btn-lg' value='Update'> 
+                                <input type='submit' name='submit' class='btn btn-success btn-lg' value='Add Product'> 
                             </div>
                            
                         </form>
