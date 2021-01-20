@@ -69,20 +69,21 @@ try{
                             <?php  echo  isset($_GET['statu'])?isset($success) && $state == 1?$success:$faild :''  ?> 
                             </div>
                             <div class='form-group column'>
+                            <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
                                 <div>
-                                    <label for='primary_image' class='text-info font-weight-bold'>primary image:</label><br>
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
-                                    <input type='file'  name='primary_image'  id='primary_image'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" >
+                                    <label for='primary_image' class='text-info font-weight-bold'>primary image: </label><br>
+                                   
+                                    <input type='file'  name='primary_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" >
                                 </div>
                                 <div>
                                     <label for='secondary_image' class='text-info font-weight-bold'>secondary image:</label><br>
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
-                                    <input type='file'  name='secondary_image'  id='secondary_image'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" >
+                                    
+                                    <input type='file'  name='secondary_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" >
                                 </div>
                                 <div>
                                     <label for='third_image' class='text-info font-weight-bold'>third image:</label><br>
-                                    <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
-                                    <input type='file'  name='third_image'  id='third_image'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" >
+                                   
+                                    <input type='file'  name='third_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" >
                                 </div>                                                               
                             </div>
                             <div class='form-group'>
@@ -143,8 +144,30 @@ try{
     </div>
 
 
+
+
 <?php echo  $bootstrapJQ; ?>
 <?php echo  $bootstrapjS; ?>
+<script type="text/javascript">
+//checking if its the accpeted format 
+var regEx = /(?:png|jpeg|jpg)/g;
+let files= document.querySelectorAll("#file")
+ $(files).each(function (index, element) {
+    $(element).change((event)=>{
+        let text = $(event.target).val()
+        let splited = text.split(".",2); 
+        if(regEx.test(splited[1].toLowerCase())){
+            console.log(true)
+
+        }
+    })
+    });
+   
+
+   
+    </script>
+
+
 </body>
 
 </html>
