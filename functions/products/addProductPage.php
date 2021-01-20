@@ -68,10 +68,22 @@ try{
                             <div class='form-group'>
                             <?php  echo  isset($_GET['statu'])?isset($success) && $state == 1?$success:$faild :''  ?> 
                             </div>
-                            <div class='form-group'>
-                                <label for='primary_image' class='text-info font-weight-bold'>primary image:</label><br>
-                                <input type="hidden" name="MAX_FILE_SIZE" value="600000" />
-                                <input type='file'  name='primary_image'  id='primary_image'  accept="image/*" class="form-control-file bg-light" >
+                            <div class='form-group column'>
+                                <div>
+                                    <label for='primary_image' class='text-info font-weight-bold'>primary image:</label><br>
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
+                                    <input type='file'  name='primary_image'  id='primary_image'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" >
+                                </div>
+                                <div>
+                                    <label for='secondary_image' class='text-info font-weight-bold'>secondary image:</label><br>
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
+                                    <input type='file'  name='secondary_image'  id='secondary_image'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" >
+                                </div>
+                                <div>
+                                    <label for='third_image' class='text-info font-weight-bold'>third image:</label><br>
+                                    <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
+                                    <input type='file'  name='third_image'  id='third_image'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" >
+                                </div>                                                               
                             </div>
                             <div class='form-group'>
                                 <label for='title'  class='text-info font-weight-bold'>title</label><br>
@@ -83,7 +95,7 @@ try{
                             </div>
                             <div class='form-group'>
                                 <label for='price' class='text-info font-weight-bold'>price:</label><br>
-                                <input type='number'  name='price'  id='price' class='form-control' >
+                                <input type='number' step='0.01' name='price'  id='price' class='form-control' >
                             </div>
                             <div class='form-group'>
                                 <label for='quantity' class='text-info font-weight-bold'>quantity:</label><br>
