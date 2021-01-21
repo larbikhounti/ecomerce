@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 19, 2021 at 10:10 PM
+-- Generation Time: Jan 21, 2021 at 01:42 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -42,26 +42,6 @@ INSERT INTO `category` (`id`, `name`) VALUES
 (3, 'hats'),
 (4, 'shoes'),
 (5, 'glasses');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `category_item`
---
-
-CREATE TABLE `category_item` (
-  `id` int(11) NOT NULL,
-  `items_id` int(11) DEFAULT NULL,
-  `category_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `category_item`
---
-
-INSERT INTO `category_item` (`id`, `items_id`, `category_id`) VALUES
-(1, 1, 4),
-(2, 1, 3);
 
 -- --------------------------------------------------------
 
@@ -106,45 +86,6 @@ INSERT INTO `colors` (`id`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `itemcolor`
---
-
-CREATE TABLE `itemcolor` (
-  `id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
-  `color_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `itemcolor`
---
-
-INSERT INTO `itemcolor` (`id`, `item_id`, `color_id`) VALUES
-(1, 2, 1),
-(2, 2, 2);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `itemipictures`
---
-
-CREATE TABLE `itemipictures` (
-  `id` int(11) NOT NULL,
-  `image_id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `itemipictures`
---
-
-INSERT INTO `itemipictures` (`id`, `image_id`, `item_id`) VALUES
-(1, 1, 2);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `items`
 --
 
@@ -165,6 +106,65 @@ CREATE TABLE `items` (
 INSERT INTO `items` (`id`, `title`, `descreption`, `price`, `quantity`, `date_added`, `primary_image`) VALUES
 (1, 'new shoes 2020 vans', '100% plastic free environment protected original ', 99, 12, '2021-01-10 15:57:20', 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5816.png'),
 (2, 'new shoes 2020 vans', '100% plastic free environment protected original ', 99.99, 12, '2021-01-10 15:57:30', 'https://pngimg.com/uploads/running_shoes/running_shoes_PNG5816.png');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_category`
+--
+
+CREATE TABLE `item_category` (
+  `id` int(11) NOT NULL,
+  `items_id` int(11) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `item_category`
+--
+
+INSERT INTO `item_category` (`id`, `items_id`, `category_id`) VALUES
+(1, 1, 4),
+(2, 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_color`
+--
+
+CREATE TABLE `item_color` (
+  `id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `color_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `item_color`
+--
+
+INSERT INTO `item_color` (`id`, `item_id`, `color_id`) VALUES
+(1, 2, 1),
+(2, 2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `item_picture`
+--
+
+CREATE TABLE `item_picture` (
+  `id` int(11) NOT NULL,
+  `image_id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `item_picture`
+--
+
+INSERT INTO `item_picture` (`id`, `image_id`, `item_id`) VALUES
+(1, 1, 2);
 
 -- --------------------------------------------------------
 
@@ -234,14 +234,6 @@ ALTER TABLE `category`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `category_item`
---
-ALTER TABLE `category_item`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `items_id` (`items_id`),
-  ADD KEY `category_id` (`category_id`);
-
---
 -- Indexes for table `clients`
 --
 ALTER TABLE `clients`
@@ -255,26 +247,34 @@ ALTER TABLE `colors`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `itemcolor`
+-- Indexes for table `items`
 --
-ALTER TABLE `itemcolor`
+ALTER TABLE `items`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `item_category`
+--
+ALTER TABLE `item_category`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `items_id` (`items_id`),
+  ADD KEY `category_id` (`category_id`);
+
+--
+-- Indexes for table `item_color`
+--
+ALTER TABLE `item_color`
   ADD PRIMARY KEY (`id`),
   ADD KEY `color_id` (`color_id`),
   ADD KEY `item_id` (`item_id`);
 
 --
--- Indexes for table `itemipictures`
+-- Indexes for table `item_picture`
 --
-ALTER TABLE `itemipictures`
+ALTER TABLE `item_picture`
   ADD PRIMARY KEY (`id`),
   ADD KEY `image_id` (`image_id`),
   ADD KEY `item_id` (`item_id`);
-
---
--- Indexes for table `items`
---
-ALTER TABLE `items`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `orders`
@@ -308,12 +308,6 @@ ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `category_item`
---
-ALTER TABLE `category_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
 -- AUTO_INCREMENT for table `clients`
 --
 ALTER TABLE `clients`
@@ -326,22 +320,28 @@ ALTER TABLE `colors`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT for table `itemcolor`
---
-ALTER TABLE `itemcolor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `itemipictures`
---
-ALTER TABLE `itemipictures`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `item_category`
+--
+ALTER TABLE `item_category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `item_color`
+--
+ALTER TABLE `item_color`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `item_picture`
+--
+ALTER TABLE `item_picture`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `orders`
@@ -366,25 +366,25 @@ ALTER TABLE `users`
 --
 
 --
--- Constraints for table `category_item`
+-- Constraints for table `item_category`
 --
-ALTER TABLE `category_item`
-  ADD CONSTRAINT `category_item_ibfk_1` FOREIGN KEY (`items_id`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `category_item_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `item_category`
+  ADD CONSTRAINT `item_category_ibfk_1` FOREIGN KEY (`items_id`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `item_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `itemcolor`
+-- Constraints for table `item_color`
 --
-ALTER TABLE `itemcolor`
-  ADD CONSTRAINT `itemcolor_ibfk_1` FOREIGN KEY (`color_id`) REFERENCES `colors` (`id`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `itemcolor_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
+ALTER TABLE `item_color`
+  ADD CONSTRAINT `item_color_ibfk_1` FOREIGN KEY (`color_id`) REFERENCES `colors` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `item_color_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
 
 --
--- Constraints for table `itemipictures`
+-- Constraints for table `item_picture`
 --
-ALTER TABLE `itemipictures`
-  ADD CONSTRAINT `itemipictures_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `pictures` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `itemipictures_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `item_picture`
+  ADD CONSTRAINT `item_picture_ibfk_1` FOREIGN KEY (`image_id`) REFERENCES `pictures` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `item_picture_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `orders`
