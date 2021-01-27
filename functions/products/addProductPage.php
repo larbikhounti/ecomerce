@@ -12,7 +12,7 @@ if(!isset($_SESSION["id"]) || $_SESSION["privilege"] != 1 ){
 
     $state = $_GET['statu'];
     $success = "<div class='alert alert-success alert-dismissible fade show' role='alert'>
-    <strong>Greet!</strong> product added updated.
+    <strong>Greet!</strong> product added succesfully.
     <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
     <span aria-hidden='true'>&times;</span>
     </button>";
@@ -79,41 +79,41 @@ try{
                             <div class='form-group column'>                            
                                 <div>
                                     <label for='primary_image' class='text-info font-weight-bold'>primary image: </label><br>
-                                    <input type='file'  name='primary_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" >
+                                    <input type='file'  name='primary_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" required>
                                 </div>
                                 <div>
                                     <label for='secondary_image' class='text-info font-weight-bold'>secondary image:</label><br>
                                     
-                                    <input type='file'  name='secondary_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" >
+                                    <input type='file'  name='secondary_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" required >
                                 </div>
                                 <div>
                                     <label for='third_image' class='text-info font-weight-bold'>third image:</label><br>
                                    
-                                    <input type='file'  name='third_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" >
+                                    <input type='file'  name='third_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" required >
                                 </div>                                                               
                             </div>
                             <div class='form-group'>
                                 <label for='title'  class='text-info font-weight-bold'>title</label><br>
-                                <input type='text'  name='title'  id='title' class='form-control bg-light' >
+                                <input type='text'  name='title'  id='title' class='form-control bg-light' required>
                             </div>
                             <div class='form-group' >
                                 <label for='description' class='text-info font-weight-bold'>description:</label><br>
-                                <textarea type='text'  name='description'    class='form-control' aria-multiline="true" ></textarea>
+                                <textarea type='text'  name='description'    class='form-control' aria-multiline="true" required ></textarea>
                             </div>
                             <div class='form-group'>
                                 <label for='price' class='text-info font-weight-bold'>price:</label><br>
-                                <input type='number' step='0.01' name='price'  id='price' class='form-control' >
+                                <input type='number' step='0.01' name='price'  id='price' class='form-control' required >
                             </div>
                             <div class='form-group'>
                                 <label for='quantity' class='text-info font-weight-bold'>quantity:</label><br>
-                                <input type='number'   name='quantity'  id='quantity' class='form-control' >
+                                <input type='number'   name='quantity'  id='quantity' class='form-control'  required>
                             </div>
                             <label for='Category' class='text-info font-weight-bold'>Categories:</label><br>
                             <div class='input-group  form-group buttom' id="Category">
                                     <div class="input-group-prepend">
                                             <label class="input-group-text" for="inputGroupSelect01">Categories</label>
                                      </div>
-                                            <select  name="categories[]" multiple class="custom-select" id="inputGroupSelect01">
+                                            <select  name="categories[]" multiple class="custom-select" id="inputGroupSelect01" required>
                                             <?php 
                                            foreach ($categories as $category ) {
                                                 echo "
@@ -127,7 +127,7 @@ try{
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputGroupSelect01">colors</label>
                                 </div>
-                                     <select name="colors[]"  multiple class='custom-select' id='inputGroupSelect01'>
+                                     <select name="colors[]"  multiple class='custom-select' id='inputGroupSelect01' required>
                                             <?php 
                                            foreach ($colors as $color ) {
                                                 echo "

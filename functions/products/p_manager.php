@@ -72,6 +72,8 @@ $errors_uploading = array();
         }
         //print_r($image_links);
     }
+    header("location:"."../products/addProductPage.php?statu=1");
+    
  }
 //upload image
 function uploadimage($file,$image,$i){
