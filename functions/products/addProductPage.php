@@ -64,15 +64,21 @@ try{
                     <div id='login-box' class='col-md-12 bg-dark'>
 
                         <form id='login-form'enctype="multipart/form-data" class='form' action='../../functions/products/p_manager.php' method='post'>
+                        <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
                             <h3 class='text-center text-info'>Add Product</h3>
+                                <div class='form-group'>
+                                <div class='alert alert-danger  primary alert-dismissible fade show' role='alert'>
+                                        <strong>opps!</strong> image type not supported.
+                                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                        <span aria-hidden='true'>&times;</span>
+                                        </button> 
+                                </div>
                             <div class='form-group'>
                             <?php  echo  isset($_GET['statu'])?isset($success) && $state == 1?$success:$faild :''  ?> 
                             </div>
-                            <div class='form-group column'>
-                            <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
+                            <div class='form-group column'>                            
                                 <div>
                                     <label for='primary_image' class='text-info font-weight-bold'>primary image: </label><br>
-                                   
                                     <input type='file'  name='primary_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" >
                                 </div>
                                 <div>
@@ -150,16 +156,36 @@ try{
 <?php echo  $bootstrapjS; ?>
 <script type="text/javascript">
 //checking if its the accpeted format 
-var regEx = /(?:png|jpeg|jpg)/g;
+ let types =[ "png","jpeg","jpg","PNG","JPEG","JPG"]
 let files= document.querySelectorAll("#file")
+$(".primary").css("display","none")
  $(files).each(function (index, element) {
+     
     $(element).change((event)=>{
+        
         let text = $(event.target).val()
         let splited = text.split(".",2); 
-        if(regEx.test(splited[1].toLowerCase())){
-            console.log(true)
-
+        console.log(this.files[0].size)
+        for (let i = 0; i < types.length; i++) {
+            if (this.files[0].size > 8000000){
+                $(".primary").text("image size  is bigger than 8M")
+                $(".primary").css("display","unset")
+                $(element).val("");
+                break
+            }
+            else if(splited[1] === types[i]){
+                $(".primary").css("display","none")
+            break
+            }
+            if(i === 5){
+            console.log("false")
+            $(".primary").css("display","unset")
+            $(element).val("");
+            }
+            
         }
+     
+       
     })
     });
    

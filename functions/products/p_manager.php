@@ -15,10 +15,11 @@ $image_links = array();
 $errors_uploading = array();
 
 // upload multiimages
-for ($i=0; $i < 3 ; $i++) { 
+for ($i=0; $i < sizeof($_FILES)  ; $i++) { 
     // upload multi images and  save there path in array
   $image_links[$i] = uploadimage($_FILES,$images_name[$i],$i);
 }
+
 print_r($image_links);
 print_r($errors_uploading);
 
@@ -29,14 +30,15 @@ print_r($errors_uploading);
 //upload image
 function uploadimage($file,$image,$i){
     // upload directory
-    $uploaddir = '../../uploads/';
+    $uploaddir = $_SERVER['DOCUMENT_ROOT'] . "/ecomerce/uploads/";
     //get type of the file
     $type = $file[$image]['type'];
     $image_type = explode('/',$type,2);
+    //($image_type[1]);
     // check if image size is accepted 
     if($file[$image]['size'] > constant("IMAGE_MAX_SIZE") ){
        // return "image size is too big ".$file[$image]['name'];
-       $errors_uploading[$i] = "image size is too big ".$file[$image]['name'];
+       echo "image size is too big ".$file[$image]['name'];
        return 0;
     }
     // loop throw types and compare them with uploaded image type
@@ -48,13 +50,20 @@ function uploadimage($file,$image,$i){
             $filename = $_FILES[$image]['name'];
             // upload the image if success  and return image directory. if not return say what the problem.
             try{
-                if (move_uploaded_file($_FILES[$image]['tmp_name'], $uploadfile)) {
-                    //return image directory
-                    return $_SERVER['DOCUMENT_ROOT'] . "/uploads/". $filename; // 1 = success
+                if (move_uploaded_file($_FILES[$image]['tmp_name'],$uploadfile)) {
+                    $mytime = time(); 
+                   // rename image
+
+                  if(rename($_SERVER['DOCUMENT_ROOT'] . "/ecomerce/uploads/".$filename,$uploaddir.$mytime . $filename)){
+                         //return image 
+                        return $_SERVER['DOCUMENT_ROOT'] . "/ecomerce/uploads/".$mytime.$filename ; // 1 = success
+                    }
+                  
                 } else {
                     // return false
                    // return "failed to upload the image  ".$file[$image]['name']; // 0 = failed
                    $errors_uploading[$i] = "failed to upload the image  ".$file[$image]['name'];
+                    "failed to upload the image  ".$file[$image]['name'];
                 }
                 break; // break the loop
             }catch(Exception $ex){
@@ -62,7 +71,7 @@ function uploadimage($file,$image,$i){
             }
        }
     }
-    $errors_uploading[$i] = "image type is not supported of ".$file[$image]['type'] . " image name ". $file[$image]['name'];
+    echo "image type is not supported of ".$file[$image]['type'] . " image name ". $file[$image]['name'];
    // return  ;
    
   
