@@ -75,7 +75,35 @@ $errors_uploading = array();
     header("location:"."../products/addProductPage.php?statu=1");
     
  }
-//upload image
+ if($_SERVER['REQUEST_METHOD'] == 'GET'){
+    if(isset($_GET["id"]) && isset($_GET["method"])){
+        //if the method is delete 
+        if($_GET["method"] == "delete"){
+            try {
+                $stm = $dbc->prepare('DELETE FROM items where id = :id');
+                $stm->bindParam(':id',$_GET["id"], PDO::PARAM_STR);
+                $stm->execute();
+                header("location:". "../../pages/products.php?statu=1&id=". $_GET["id"]);
+            } catch (Exception $ex) {
+                //throw $th;
+                header("location:". "../../pages/products.php?statu=0&id=". $_GET["id"]);
+                echo $ex;
+            }
+            //if the methode is update
+        }elseif($_GET["method"] == "dalete"){
+            try {              
+             
+                } catch (Exception $ex) {
+                 //throw $th;
+                 //header("location:". "../../pages/products.php?statu=0&id=". $_GET["id"]);
+                 echo $ex;
+                }  
+        }
+           
+        
+    }
+}   
+//upload image function 
 function uploadimage($file,$image,$i){
     // upload directory
     $uploaddir = $_SERVER['DOCUMENT_ROOT'] . "/ecomerce/uploads/";

@@ -9,13 +9,28 @@ include "../const/bootstrap.php";
 include "../const/navbar.php";
 include "../includes/mysql_connections/connect.php";
 if(!isset($_SESSION["id"]) || $_SESSION["privilege"] != 1 ){
-    header("Location:"."../login.php");
+  header("Location:"."../login.php");
+}elseif(isset($_GET['statu'])){
+
+  $state = $_GET['statu'];
+  $success = "<div class=' alert alert-success alert-dismissible fade show' role='alert'>
+  <strong>Greet!</strong> product with id = ". $_GET['id']." has been deleted 
+  <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+  <span aria-hidden='true'>&times;</span>
+  </button>";
+
+  $faild = "<div class='alert alert-danger alert-dismissible fade show' role='alert'>
+  <strong>opps!</strong> Something wrong try again.
+  <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+  <span aria-hidden='true'>&times;</span>
+  </button>";
 }
+
 // get all the products from database
 try{
     $stm = $dbc->prepare('select * from items');
     $stm->execute();
-    $data = $stm ->fetchAll(PDO::FETCH_ASSOC);
+    $products = $stm ->fetchAll(PDO::FETCH_ASSOC);
 
   }catch(Exception $e){
       echo $e;
@@ -34,54 +49,83 @@ try{
     <link rel='stylesheet' type='text/css' href='../styles/nav.css'>
     <link rel='stylesheet' type='text/css' href='../styles/products.css'>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../styles/jquery.jqZoom.css" />
+
     <title>products</title>
 </head>
 <body>
 <?php echo $navbar; ?>
-<div class="table-responsive-sm">
-<table class="table ">
-  <thead class="thead-dark ">
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">Primary Image</th>
-      <th scope="col">Title</th>
-      <th scope="col">Descreption</th>
-      <th scope="col">Price</th>
-      <th scope="col">Quantity</th>
-      <th scope="col">Date Added</th>
-      <th scope="col"><a href="../functions/products/addProductPage.php"><button class="btn btn-success">add <i class="bi bi-pencil-square"></i></button></a></th>
-      <th scope="col"></th>
-    </tr>
-  </thead>
-  <tbody>
-      <?php 
-         foreach ($data as $key ) {
-            # code...
-            echo "<tr>
-            <th scope='row'>". $key["id"] ."</th>
-            <td><img  class='image'src=".$key["primary_image"]." /></td>
-            <td>". substr($key["title"], 0, 30)."...</td>
-            <td>". substr($key["descreption"], 0, 35)."...</td>
-            <td>".$key["price"]."</td>
-            <td>".$key["quantity"]."</td>
-            <td>".$key["date_added"]."</td>
-            <td>
-            <a href='../functions/members/m_manager.php?id=". $key["id"] ."&action=0'><Button class='btn btn-danger'>delete <i class='bi bi-file-earmark-x'></i></Button></a>
-            </td>
-            <td>
-            <a href='../functions/members/m_updatePage.php?id=". $key["id"] ."'><Button class='btn bg-dark text-white '>Edit <i class='bi bi-pencil-fill'></i></Button></a>
-            </td>
 
-          </tr>";
-        }+6
-      ?>
- 
-  </tbody>
-</table>
+
+
+<div class="container">
+        <div class = "row">
+            <?php  echo  isset($_GET['statu'])?isset($success) && $state == 1?$success:$faild :''  ?> 
+        </div>
+              <div class="table-responsive-sm mt-5 ">
+                <table class="table table-sm mt-1">
+                  <thead class="thead-dark ">
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">Primary Image</th>
+                      <th scope="col">Title</th>
+                      <th scope="col">Descreption</th>
+                      <th scope="col">Price</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col">Date Added</th>
+                      <th scope="col"><a href="../functions/products/addProductPage.php"><button class="btn btn-success">add <i class="bi bi-pencil-square"></i></button></a></th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <?php 
+                        foreach ($products as $product ) {
+                            # code...
+                            echo "<tr>
+                            <th scope='row'>". $product["id"] ."</th>
+                            <td class ='p-0 m-0 w-0'><div class='zoom-box p-0 w-5'>
+                            <img class='image' src=".$product["primary_image"]." width='50px' height='50px' /></div></td>
+                            <td>". substr($product["title"], 0, 30)."...</td>
+                            <td>". substr($product["descreption"], 0, 35)."...</td>
+                            <td>".$product["price"]."</td>
+                            <td>".$product["quantity"]."</td>
+                            <td>".$product["date_added"]."</td>
+                            <td>
+                            <a href='../functions/products/p_manager.php?id=". $product["id"] ."&method=delete'><Button class='btn btn-danger'>delete <i class='bi bi-file-earmark-x'></i></Button></a>
+                            </td>
+                            <td>
+                            <a href='../functions/products/p_manager.php?id=". $product["id"]  ."&method=update'><Button class='btn bg-dark text-white '>Edit <i class='bi bi-pencil-fill'></i></Button></a>
+                            </td>
+
+                          </tr>";
+                        }
+                      ?>
+                
+                  </tbody>
+                </table>
+              </div>
+      
 
 </div>
 
+
 <?php echo  $bootstrapJQ; ?>
 <?php echo  $bootstrapjS; ?>
+<script src="../scriptsjs/jquery.jqZoom.js">
+
+</script>
+<script>
+  $(function(){
+  $(".image").jqZoom({
+    selectorWidth: 20,
+    selectorHeight: 20,
+    viewerWidth: 300,
+    viewerHeight: 400
+    
+
+  });
+8
+})
+</script>
 </body>
 </html>
