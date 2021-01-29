@@ -59,10 +59,23 @@ try{
 
 
 <div class="container">
+
         <div class = "row">
             <?php  echo  isset($_GET['statu'])?isset($success) && $state == 1?$success:$faild :''  ?> 
         </div>
               <div class="table-responsive-sm mt-5 ">
+
+              <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <button class="dropdown-item" type="button">Action</button>
+                        <button class="dropdown-item" type="button">Another action</button>
+                        <button class="dropdown-item" type="button">Something else here</button>
+                      </div>
+              </div>
+
                 <table class="table table-sm mt-1">
                   <thead class="thead-dark ">
                     <tr>
@@ -108,9 +121,11 @@ try{
 
 </div>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <?php echo  $bootstrapJQ; ?>
 <?php echo  $bootstrapjS; ?>
+
+
 <script src="../scriptsjs/jquery.jqZoom.js">
 
 </script>
@@ -124,7 +139,6 @@ try{
     
 
   });
-8
 })
 </script>
 </body>
