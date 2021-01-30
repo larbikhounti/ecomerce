@@ -24,28 +24,86 @@ if(!isset($_SESSION["id"]) || $_SESSION["privilege"] != 1 ){
     </button>";
 }
 // get all the products from database
-if(isset($_GET["id"])){
-    try{
+try{
+        //create empty array 
+        
+    $stm = $dbc->prepare('SELECT items.*,colors.name as  color from items,colors,item_color
+    WHERE items.id = item_color.item_id and item_color.color_id = colors.id');
+    $stm->execute();
+    $colors = $stm ->fetchAll(PDO::FETCH_ASSOC);
 
-        $stm = $dbc->prepare('SELECT id as color_id,name as color_name from colors where id = :id');
-        $stm->bindParam(':id',$_GET["id"], PDO::PARAM_STR);
-        $stm->execute();
-        $colors = $stm ->fetchAll(PDO::FETCH_ASSOC);
-        //print_r($colors);
-        $stm2 = $dbc->prepare('SELECT id as category_id , name as category_name from category where id');
-        $stm2->execute();
-        $categories = $stm2 ->fetchAll(PDO::FETCH_ASSOC);
-    
-      //print_r($categories);
-    
-       // print_r($data);
-      }catch(Exception $e){
-          echo $e;
-         // header("Location:"."../../welcomepage.php?statu=0");
+    $stm = $dbc->prepare('SELECT items.*,category.name as  category from items,category,item_category
+    WHERE items.id = item_category.items_id and item_category.category_id = category.id
+    ');
+    $stm->execute();
+    $category = $stm ->fetchAll(PDO::FETCH_ASSOC);
+    //print_r($colors);
+    $reuslta = regroup_color($colors,$category);
+    echo json_encode($reuslta);
+    //print_r($colors);
+    /*
+    $stm2 = $dbc->prepare('SELECT id as category_id , name as category_name from category');
+    $stm2->execute();
+    $categories = $stm2 ->fetchAll(PDO::FETCH_ASSOC);
+    */
+//print_r($colors);
+/*
+    $stm3 = $dbc->prepare('SELECT *  from items where id= :id');
+    $stm3->bindParam(':id',$_GET['id'], PDO::PARAM_STR);
+    $stm3->execute();
+    $item = $stm2 ->fetchAll(PDO::FETCH_ASSOC);
+*/
+  //print_r($categories);
+
+   // print_r($data);
+  }catch(Exception $e){
+      echo $e;
+     // header("Location:"."../../welcomepage.php?statu=0");
+  }
+  function regroup_color($data = array(),$data2 = array()){
+      // array that will hold our data and we will return it later
+    $ret = array();
+    // fetch the data as d
+    foreach($data as $d){
+      //save the id 
+      $id = $d['id'];
+      //make sure no id was set
+      if(!isset($ret[$id])){
+        // save the name of the color
+        $color = $d['color'];
+        unset($d['color']);
+        //save all the item data
+        $ret[$id] = $d;
+        // add color to color array
+        $ret[$id]['color'][] = $color;
+      }else{
+          // if wa alredy did all the above things just keep adding colors to color array
+        $ret[$id]['color'][] = $d['color'];
       }
-}
+    }
+      
+      
+    foreach($data2 as $d){
 
-
+        //save the id 
+          $id = $d['id'];
+          //make sure no id was set
+          if(!isset($ret[$id])){
+            // save the name of the color
+            $category = $d['category'];
+            unset($d['category']);
+            $ret[$id] = $d;
+            $ret[$id]['category'][] = $category;
+          }else{
+            $ret[$id]['category'][] = $d['category'];
+          }
+        }
+    
+    
+  return $ret;
+    }
+ 
+    
 
 ?>
 <!DOCTYPE html>
