@@ -37,8 +37,15 @@ try{
     ');
     $stm->execute();
     $category = $stm ->fetchAll(PDO::FETCH_ASSOC);
+    
+    $stm = $dbc->prepare('SELECT DISTINCT items.*,pictures.url as image_url from items,pictures
+    WHERE items.id = pictures.product_id    
+    ');
+    $stm->execute();
+    $pictures = $stm ->fetchAll(PDO::FETCH_ASSOC);
+
     //print_r($colors);
-    $reuslta = regroup_color($colors,$category);
+    $reuslta = regroup_color($colors,$category,$pictures);
     echo json_encode($reuslta);
     //print_r($colors);
     /*
@@ -60,11 +67,11 @@ try{
       echo $e;
      // header("Location:"."../../welcomepage.php?statu=0");
   }
-  function regroup_color($data = array(),$data2 = array()){
+  function regroup_color($colors = array(),$catagories = array(),$pictures = array()){
       // array that will hold our data and we will return it later
     $ret = array();
     // fetch the data as d
-    foreach($data as $d){
+    foreach($colors as $d){
       //save the id 
       $id = $d['id'];
       //make sure no id was set
@@ -83,8 +90,7 @@ try{
     }
       
       
-    foreach($data2 as $d){
-
+    foreach($catagories as $d){
         //save the id 
           $id = $d['id'];
           //make sure no id was set
@@ -98,6 +104,21 @@ try{
             $ret[$id]['category'][] = $d['category'];
           }
         }
+
+        foreach($pictures as $d){
+            //save the id 
+              $id = $d['id'];
+              //make sure no id was set
+              if(!isset($ret[$id])){
+                // save the name of the color
+                $image_url = $d['image_url'];
+                unset($d['image_url']);
+                $ret[$id] = $d;
+                $ret[$id]['image_url'][] = $image_url;
+              }else{
+                $ret[$id]['image_url'][] = $d['image_url'];
+              }
+            }
     
     
   return $ret;
