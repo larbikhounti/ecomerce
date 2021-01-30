@@ -82,10 +82,10 @@ try{
         //save all the item data
         $ret[$id] = $d;
         // add color to color array
-        $ret[$id]['color'][] = $color;
+        $ret[$id]['colors'][] = $color;
       }else{
           // if wa alredy did all the above things just keep adding colors to color array
-        $ret[$id]['color'][] = $d['color'];
+        $ret[$id]['colors'][] = $d['color'];
       }
     }
       
@@ -96,12 +96,12 @@ try{
           //make sure no id was set
           if(!isset($ret[$id])){
             // save the name of the color
-            $category = $d['category'];
+            $category = $d['categories'];
             unset($d['category']);
             $ret[$id] = $d;
-            $ret[$id]['category'][] = $category;
+            $ret[$id]['categories'][] = $category;
           }else{
-            $ret[$id]['category'][] = $d['category'];
+            $ret[$id]['categories'][] = $d['category'];
           }
         }
 
@@ -111,12 +111,12 @@ try{
               //make sure no id was set
               if(!isset($ret[$id])){
                 // save the name of the color
-                $image_url = $d['image_url'];
+                $image_url = $d['image_urls'];
                 unset($d['image_url']);
                 $ret[$id] = $d;
-                $ret[$id]['image_url'][] = $image_url;
+                $ret[$id]['image_urls'][] = $image_url;
               }else{
-                $ret[$id]['image_url'][] = $d['image_url'];
+                $ret[$id]['image_urls'][] = $d['image_url'];
               }
             }
     
