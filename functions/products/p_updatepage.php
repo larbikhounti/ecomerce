@@ -58,7 +58,7 @@ try{
 
                 //regroup all the result
                 $reuslta = regroup_data($colors,$category,$pictures);
-               echo json_encode($reuslta[$_GET["id"]]);
+             //  echo json_encode($reuslta[$_GET["id"]]);
            }
 
        }
@@ -179,7 +179,7 @@ try{
                             <div class='form-group column'>                            
                                 <div>
                                     <label for='primary_image' class='text-info font-weight-bold'>primary image: </label> <img class="image" src="<?php echo $reuslta[$_GET["id"]]["primary_image"] ?>" width="40"  height="40"><br>
-                                    <input type='file'  name='primary_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" required>
+                                    <input type='file' name='primary_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" required>
                                 </div>
                                 <div>
                                     <label for='secondary_image' class='text-info font-weight-bold'>secondary image:</label><img src="<?php echo $reuslta[$_GET["id"]]["image_urls"][0] ?>" width="40"  height="40"><br>
@@ -309,6 +309,7 @@ colors.forEach(item=>{
     //console.log(item.value)
     for (let i = 0; i < arrayOfColorsIds.length; i++) {
         if(item.value == arrayOfColorsIds[i]){
+            item.style.fontWeight = "700";
             item.setAttribute('selected', true);
         }
     }
@@ -317,6 +318,7 @@ categories.forEach(item=>{
     //console.log(item.value)
     for (let i = 0; i < arrayOfColorsCategories.length; i++) {
         if(item.value == arrayOfColorsCategories[i]){
+            item.style.fontWeight = "700";
             item.setAttribute('selected', true);
         }
     }

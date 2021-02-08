@@ -90,14 +90,6 @@ $errors_uploading = array();
                 echo $ex;
             }
             //if the methode is update
-        }elseif($_GET["method"] == "dalete"){
-            try {              
-             
-                } catch (Exception $ex) {
-                 //throw $th;
-                 //header("location:". "../../pages/products.php?statu=0&id=". $_GET["id"]);
-                 echo $ex;
-                }  
         }
            
         
