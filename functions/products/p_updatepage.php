@@ -58,7 +58,7 @@ try{
 
                 //regroup all the result
                 $reuslta = regroup_data($colors,$category,$pictures);
-               // echo json_encode($reuslta["24"]);
+               echo json_encode($reuslta[$_GET["id"]]);
            }
 
        }
@@ -151,7 +151,7 @@ try{
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <?php echo  $bootstrapCSS; ?>
     <link rel='stylesheet' type='text/css' href='../../styles/custom.css'>
-
+    
     <title>profile</title>
 </head>
 
@@ -165,7 +165,7 @@ try{
 
                         <form id='login-form'enctype="multipart/form-data" class='form' action='../../functions/products/p_manager.php' method='post'>
                         <input type="hidden" name="MAX_FILE_SIZE" value="800000" />
-                            <h3 class='text-center text-info'>Add Product</h3>
+                            <h3 class='text-center text-info'>Update Product</h3>
                                 <div class='form-group'>
                                 <div class='alert alert-danger  primary alert-dismissible fade show' role='alert'>
                                         <strong>opps!</strong> image type not supported.
@@ -178,35 +178,37 @@ try{
                             </div>
                             <div class='form-group column'>                            
                                 <div>
-                                    <label for='primary_image' class='text-info font-weight-bold'>primary image: </label><br>
+                                    <label for='primary_image' class='text-info font-weight-bold'>primary image: </label> <img class="image" src="<?php echo $reuslta[$_GET["id"]]["primary_image"] ?>" width="40"  height="40"><br>
                                     <input type='file'  name='primary_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" required>
                                 </div>
                                 <div>
-                                    <label for='secondary_image' class='text-info font-weight-bold'>secondary image:</label><br>
+                                    <label for='secondary_image' class='text-info font-weight-bold'>secondary image:</label><img src="<?php echo $reuslta[$_GET["id"]]["image_urls"][0] ?>" width="40"  height="40"><br>
                                     
                                     <input type='file'  name='secondary_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" required >
                                 </div>
                                 <div>
-                                    <label for='third_image' class='text-info font-weight-bold'>third image:</label><br>
+                                    <label for='third_image' class='text-info font-weight-bold'>third  image: &nbsp; </label><img src="<?php echo $reuslta[$_GET["id"]]["image_urls"][1] ?>" width="40"  height="40"><br>
                                    
                                     <input type='file'  name='third_image'  id='file'  accept="image/png,image/jpg,image/jpeg" class="form-control-file bg-light" required >
                                 </div>                                                               
                             </div>
                             <div class='form-group'>
                                 <label for='title'  class='text-info font-weight-bold'>title</label><br>
-                                <input type='text'  name='title'  id='title' class='form-control bg-light' required>
+                                <input type='text' value="<?php echo $reuslta[$_GET["id"]]["title"] ?>"  name='title'  id='title' class='form-control bg-light' required>
                             </div>
                             <div class='form-group' >
                                 <label for='description' class='text-info font-weight-bold'>description:</label><br>
-                                <textarea type='text'  name='description'    class='form-control' aria-multiline="true" required ></textarea>
+                                <textarea type='text'   name='description'    class='form-control' aria-multiline="true" required >
+                                 <?php echo $reuslta[$_GET["id"]]["descreption"] ?>
+                                </textarea>
                             </div>
                             <div class='form-group'>
                                 <label for='price' class='text-info font-weight-bold'>price:</label><br>
-                                <input type='number' step='0.01' name='price'  id='price' class='form-control' required >
+                                <input type='number' value="<?php echo $reuslta[$_GET["id"]]["price"] ?>" step='0.01' name='price'  id='price' class='form-control' required >
                             </div>
                             <div class='form-group'>
                                 <label for='quantity' class='text-info font-weight-bold'>quantity:</label><br>
-                                <input type='number'   name='quantity'  id='quantity' class='form-control'  required>
+                                <input type='number' value="<?php echo $reuslta[$_GET["id"]]["quantity"] ?>"  name='quantity'  id='quantity' class='form-control'  required>
                             </div>
                             <label for='Category' class='text-info font-weight-bold'>Categories:</label><br>
                             <div class='input-group  form-group buttom' id="Category">
@@ -239,7 +241,7 @@ try{
                             </div>
                             
                             <div class='form-group buttom'>
-                                <input type='submit' name='submit' class='btn btn-success btn-lg' value='Add Product'> 
+                                <input type='submit' name='submit' class='btn btn-success btn-lg' value='Update Product'> 
                             </div>
                            
                         </form>
@@ -252,8 +254,11 @@ try{
 
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <?php echo  $bootstrapJQ; ?>
 <?php echo  $bootstrapjS; ?>
+
+
 
 <script type="text/javascript">
 //checking if its the accpeted format 
