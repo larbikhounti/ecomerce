@@ -107,7 +107,7 @@ try{
                             <a href='../functions/products/p_manager.php?id=". $product["id"] ."&method=delete'><Button class='btn btn-danger'>delete <i class='bi bi-file-earmark-x'></i></Button></a>
                             </td>
                             <td>
-                            <a href='../functions/products/p_manager.php?id=". $product["id"]  ."&method=update'><Button class='btn bg-dark text-white '>Edit <i class='bi bi-pencil-fill'></i></Button></a>
+                            <a href='../functions/products/p_updatepage.php?id=". $product["id"]  ."&method=update'><Button class='btn bg-dark text-white '>Edit <i class='bi bi-pencil-fill'></i></Button></a>
                             </td>
 
                           </tr>";

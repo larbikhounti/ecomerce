@@ -25,28 +25,44 @@ if(!isset($_SESSION["id"]) || $_SESSION["privilege"] != 1 ){
 }
 // get all the products from database
 try{
-        //create empty array 
-        
-    $stm = $dbc->prepare('SELECT items.*,colors.name as  color from items,colors,item_color
-    WHERE items.id = item_color.item_id and item_color.color_id = colors.id');
-    $stm->execute();
-    $colors = $stm ->fetchAll(PDO::FETCH_ASSOC);
+       if(isset($_GET["id"]) && isset($_GET["method"])){
+           if($_GET["method"] == "update"){
+                $stm = $dbc->prepare('SELECT id as color_id, name as color_name from colors ');
+                $stm->execute();
+                $colorsAll = $stm ->fetchAll(PDO::FETCH_ASSOC);
+                
+                $stm2 = $dbc->prepare('SELECT id as category_id , name as category_name from category');
+                $stm2->execute();
+                $categoriesAll = $stm2 ->fetchAll(PDO::FETCH_ASSOC);
+                // get all colors by id from database  
+                $stm = $dbc->prepare('SELECT items.*,colors.id as  color_id from items,colors,item_color
+                WHERE items.id = item_color.item_id and item_color.color_id = colors.id having items.id = :id ');
+                $stm->bindParam(":id",$_GET["id"]);
+                $stm->execute();
+                $colors = $stm ->fetchAll(PDO::FETCH_ASSOC);
+                
+                // get all categories by id from database 
+                $stm = $dbc->prepare('SELECT items.*,category.id as  category_id from items,category,item_category
+                WHERE items.id = item_category.items_id and item_category.category_id = category.id having items.id = :id 
+                ');
+                $stm->bindParam(":id",$_GET["id"]);
+                $stm->execute();
+                $category = $stm ->fetchAll(PDO::FETCH_ASSOC);
+                // get all pictures by id from database 
+                $stm = $dbc->prepare('SELECT DISTINCT items.*,pictures.url as image_url from items,pictures
+                WHERE items.id = pictures.product_id  having items.id = :id   
+                ');
+                $stm->bindParam(":id",$_GET["id"]);
+                $stm->execute();
+                $pictures = $stm ->fetchAll(PDO::FETCH_ASSOC);
 
-    $stm = $dbc->prepare('SELECT items.*,category.name as  category from items,category,item_category
-    WHERE items.id = item_category.items_id and item_category.category_id = category.id
-    ');
-    $stm->execute();
-    $category = $stm ->fetchAll(PDO::FETCH_ASSOC);
+                //regroup all the result
+                $reuslta = regroup_data($colors,$category,$pictures);
+               // echo json_encode($reuslta["24"]);
+           }
+
+       }
     
-    $stm = $dbc->prepare('SELECT DISTINCT items.*,pictures.url as image_url from items,pictures
-    WHERE items.id = pictures.product_id    
-    ');
-    $stm->execute();
-    $pictures = $stm ->fetchAll(PDO::FETCH_ASSOC);
-
-    //print_r($colors);
-    $reuslta = regroup_color($colors,$category,$pictures);
-    echo json_encode($reuslta);
     //print_r($colors);
     /*
     $stm2 = $dbc->prepare('SELECT id as category_id , name as category_name from category');
@@ -67,7 +83,7 @@ try{
       echo $e;
      // header("Location:"."../../welcomepage.php?statu=0");
   }
-  function regroup_color($colors = array(),$catagories = array(),$pictures = array()){
+  function regroup_data($colors = array(),$catagories = array(),$pictures = array()){
       // array that will hold our data and we will return it later
     $ret = array();
     // fetch the data as d
@@ -77,15 +93,15 @@ try{
       //make sure no id was set
       if(!isset($ret[$id])){
         // save the name of the color
-        $color = $d['color'];
-        unset($d['color']);
+        $color_id = $d['color_id'];
+        unset($d['color_id']);
         //save all the item data
         $ret[$id] = $d;
         // add color to color array
-        $ret[$id]['colors'][] = $color;
+        $ret[$id]['colors'][] = $color_id ;
       }else{
-          // if wa alredy did all the above things just keep adding colors to color array
-        $ret[$id]['colors'][] = $d['color'];
+       
+        $ret[$id]['colors'][] = $d['color_id'];
       }
     }
       
@@ -97,11 +113,11 @@ try{
           if(!isset($ret[$id])){
             // save the name of the color
             $category = $d['categories'];
-            unset($d['category']);
+            unset($d['category_id']);
             $ret[$id] = $d;
             $ret[$id]['categories'][] = $category;
           }else{
-            $ret[$id]['categories'][] = $d['category'];
+            $ret[$id]['categories'][] = $d['category_id'];
           }
         }
 
@@ -199,7 +215,7 @@ try{
                                      </div>
                                             <select  name="categories[]" multiple class="custom-select" id="inputGroupSelect01" required>
                                             <?php 
-                                           foreach ($categories as $category ) {
+                                           foreach ($categoriesAll as $category ) {
                                                 echo "
                                                 <option value=".$category["category_id"].">".$category["category_name"] ."</option>";
                                             }
@@ -209,11 +225,11 @@ try{
                             <label for='Category' class='text-info font-weight-bold'>Colors:</label><br>
                             <div class='input-group  form-group buttom'>
                                 <div class="input-group-prepend">
-                                    <label class="input-group-text" for="inputGroupSelect01">colors</label>
+                                    <label class="input-group-text" for="inputGroupSelect02">colors</label>
                                 </div>
-                                     <select name="colors[]"  multiple class='custom-select' id='inputGroupSelect01' required>
+                                     <select name="colors[]"  multiple class='custom-select' id='inputGroupSelect02' required>
                                             <?php 
-                                           foreach ($colors as $color ) {
+                                           foreach ($colorsAll as $color ) {
                                                 echo "
                                                 <option value=".$color["color_id"].">".$color["color_name"] ."</option>";
                                             }
@@ -238,6 +254,7 @@ try{
 
 <?php echo  $bootstrapJQ; ?>
 <?php echo  $bootstrapjS; ?>
+
 <script type="text/javascript">
 //checking if its the accpeted format 
  let types =[ "png","jpeg","jpg","PNG","JPEG","JPG"]
@@ -276,7 +293,30 @@ $(".primary").css("display","none")
 
    
     </script>
-
+    
+<script  type="text/javascript">
+let colors = document.querySelectorAll("#inputGroupSelect02 > option")
+let categories = document.querySelectorAll("#inputGroupSelect01 > option")
+let selectColors = <?php echo json_encode($reuslta[$_GET["id"]])?> ;
+let arrayOfColorsIds = selectColors.colors
+let arrayOfColorsCategories = selectColors.categories
+colors.forEach(item=>{
+    //console.log(item.value)
+    for (let i = 0; i < arrayOfColorsIds.length; i++) {
+        if(item.value == arrayOfColorsIds[i]){
+            item.setAttribute('selected', true);
+        }
+    }
+})
+categories.forEach(item=>{
+    //console.log(item.value)
+    for (let i = 0; i < arrayOfColorsCategories.length; i++) {
+        if(item.value == arrayOfColorsCategories[i]){
+            item.setAttribute('selected', true);
+        }
+    }
+})
+</script>
 
 </body>
 
