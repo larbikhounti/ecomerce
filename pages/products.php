@@ -28,9 +28,22 @@ if (!isset($_SESSION["id"]) || $_SESSION["privilege"] != 1) {
 
 // get all the products from database
 try {
-  $stm = $dbc->prepare('select * from items');
-  $stm->execute();
-  $products = $stm->fetchAll(PDO::FETCH_ASSOC);
+  //print_r($_GET);
+   if(isset($_GET["color"]) && isset($_GET["category"])) {
+    $stm = $dbc->prepare('SELECT items.*,colors.id,category.id from items,colors,item_color,category,item_category where 
+    items.id = item_color.item_id and item_color.color_id = colors.id
+    AND items.id = item_category.items_id and item_category.category_id = category.id HAVING colors.id = :color_id and category.id = :category_id
+    ');
+    $stm->bindParam("color_id",$_GET["color"]);
+    $stm->bindParam("category_id",$_GET["category"]);
+    $stm->execute();
+    $products = $stm->fetchAll(PDO::FETCH_ASSOC);
+   }else{
+    $stm = $dbc->prepare('select * from items');
+    $stm->execute();
+    $products = $stm->fetchAll(PDO::FETCH_ASSOC);
+   }
+  
   $stm = $dbc->prepare('select * from category');
   $stm->execute();
   $categories = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -75,36 +88,30 @@ try {
     </div>
     <div class="table-responsive-sm mt-5 ">
       <div class="row ml-5">
-        <form action="./products.php" method="GET" class="row w-150">
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Categories
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-              <?php
+        <form action="./products.php" method="GET" class="row ">
+        <select class="form-select form-select-lg mr-4" name ="category" aria-label=".form-select-lg ">
+        <option selected>Category</option>
+            <?php
               foreach ($categories as $category) {
                 # code...
-                echo "<button class='dropdown-item' type='button'>" . $category['name'] . "</button>";
+                echo "<option value='".$category["id"]."'>".$category["name"]."</option>";
+                
               }
 
               ?>
-            </div>
-          </div>
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Colors
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-              <?php
+        </select>
+          
+        <select class="form-select form-select-lg mr-4"  name ="color"  aria-label=".form-select-lg ">
+        <option selected>Colors</option>
+            <?php
               foreach ($colors as $color) {
                 # code...
-                echo "<button class='dropdown-item' type='button'>" . $color['name'] . "</button>";
+                echo "<option value='".$color["id"]."'>".$color["name"]."</option>";
+                
               }
 
               ?>
-            </div>
-          </div>
-
+        </select>
 
             <button type="submit" class="btn btn-primary w-20" ><i class="bi bi-search"></i> Filter</button>
         </form>
@@ -113,18 +120,22 @@ try {
       </div>
 
 
-      <table id="table" class="table table-sm mt-1"  data-filter-control="true"
-  data-show-search-clear-button="true">
+      <table id="table" 
+      class="table table-sm mt-1"
+      data-filter-control="true"
+      data-show-multi-sort="false"
+      
+  >
         <thead class="thead-dark ">
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Primary Image</th>
-            <th scope="col" data-field="title" data-filter-control="input">Title</th>
+            <th scope="col" data-field="title" data-filter-control="input" >Title</th>
             <th scope="col" data-field="Descreption" data-filter-control="input">Descreption</th>
-            <th scope="col" data-field="Price" data-filter-control="input">Price</th>
-            <th scope="col" data-field="Quantity" data-filter-control="input" >Quantity</th>
-            <th scope="col" data-field="Date Added" data-filter-control="input" >Date Added</th>
-            <th scope="col"><a href="../functions/products/addProductPage.php"><button class="btn btn-success">add <i class="bi bi-pencil-square"></i></button></a></th>
+            <th scope="col" data-field="Price" data-filter-control="input" data-sortable="true">Price</th>
+            <th scope="col" data-field="Quantity" data-filter-control="input" data-sortable="true" >Quantity</th>
+            <th scope="col" data-field="Date Added" data-filter-control="input" data-sortable="true">Date Added</th>
+            <th scope="col"><a href="../functions/products/addProductPage.php"><button class="btn btn-success">Add Product <i class="bi bi-pencil-square"></i></button></a></th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -166,6 +177,8 @@ try {
 
   <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/bootstrap-table.min.js"></script>
   <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+  <script src="https://unpkg.com/bootstrap-table@1.18.2/dist/extensions/multiple-sort/bootstrap-table-multiple-sort.js"></script>
+
   <script>
   $(function() {
     $('#table').bootstrapTable()
@@ -186,6 +199,7 @@ try {
 
       });
     })
+    
   </script>
 </body>
 
