@@ -29,15 +29,18 @@ if (!isset($_SESSION["id"]) || $_SESSION["privilege"] != 1) {
 // get all the products from database
 try {
   //print_r($_GET);
-   if(isset($_GET["color"]) && isset($_GET["category"]) && $_GET["color"] != "colors" && $_GET["category"] != "Category") {
-    $stm = $dbc->prepare('SELECT items.*,colors.id,category.id from items,colors,item_color,category,item_category where 
-    items.id = item_color.item_id and item_color.color_id = colors.id
-    AND items.id = item_category.items_id and item_category.category_id = category.id HAVING colors.id = :color_id and category.id = :category_id
-    ');
-    $stm->bindParam("color_id",$_GET["color"]);
-    $stm->bindParam("category_id",$_GET["category"]);
-    $stm->execute();
-    $products = $stm->fetchAll(PDO::FETCH_ASSOC);
+   if(!empty($_GET["color"]) && !empty($_GET["category"]) ) {
+     if($_GET["color"] !== "colors" && $_GET["category"] !== "category"){
+      $stm = $dbc->prepare('SELECT items.*,colors.id,category.id from items,colors,item_color,category,item_category where 
+      items.id = item_color.item_id and item_color.color_id = colors.id
+      AND items.id = item_category.items_id and item_category.category_id = category.id HAVING colors.id = :color_id and category.id = :category_id
+      ');
+      $stm->bindParam("color_id",$_GET["color"]);
+      $stm->bindParam("category_id",$_GET["category"]);
+      $stm->execute();
+      $products = $stm->fetchAll(PDO::FETCH_ASSOC);
+     }
+
    }else{
     $stm = $dbc->prepare('select * from items');
     $stm->execute();
@@ -90,7 +93,7 @@ try {
       <div class="row ml-5">
         <form action="./products.php" method="GET" class="row ">
         <select class="form-select form-select-lg mr-4" name ="category" aria-label=".form-select-lg ">
-        <option selected>Category</option>
+        <option selected></option>
             <?php
               foreach ($categories as $category) {
                 # code...
@@ -102,7 +105,7 @@ try {
         </select>
           
         <select class="form-select form-select-lg mr-4"  name ="color"  aria-label=".form-select-lg ">
-        <option selected>Colors</option>
+        <option selected></option>
             <?php
               foreach ($colors as $color) {
                 # code...
