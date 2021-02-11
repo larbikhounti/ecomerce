@@ -29,7 +29,7 @@ if (!isset($_SESSION["id"]) || $_SESSION["privilege"] != 1) {
 // get all the products from database
 try {
   //print_r($_GET);
-   if(isset($_GET["color"]) && isset($_GET["category"])) {
+   if(isset($_GET["color"]) && isset($_GET["category"]) && $_GET["color"] != "colors" && $_GET["category"] != "Category") {
     $stm = $dbc->prepare('SELECT items.*,colors.id,category.id from items,colors,item_color,category,item_category where 
     items.id = item_color.item_id and item_color.color_id = colors.id
     AND items.id = item_category.items_id and item_category.category_id = category.id HAVING colors.id = :color_id and category.id = :category_id
@@ -199,7 +199,7 @@ try {
 
       });
     })
-    
+
   </script>
 </body>
 
