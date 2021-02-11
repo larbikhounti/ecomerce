@@ -239,7 +239,11 @@ try{
                                     </select>
   
                             </div>
-                            
+                            <div class='form-group'>
+                                <input type='text' value="update"   name='method'  id='quantity' class='form-control'  hidden>
+                                <input type='text' value= <?php $reuslta[$_GET["id"]]["image_urls"] ?>   name='images'  id='quantity' class='form-control'  hidden>
+                                
+                            </div>
                             <div class='form-group buttom'>
                                 <input type='submit' name='submit' class='btn btn-success btn-lg' value='Update Product'> 
                             </div>

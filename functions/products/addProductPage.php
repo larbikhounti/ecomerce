@@ -137,6 +137,9 @@ try{
                                     </select>
   
                             </div>
+                            <div class='form-group'>
+                                <input type='text' value="add"   name='method'  id='quantity' class='form-control'  hidden>
+                            </div>
                             
                             <div class='form-group buttom'>
                                 <input type='submit' name='submit' class='btn btn-success btn-lg' value='Add Product'> 

@@ -21,58 +21,70 @@ $errors_uploading = array();
  if($_SERVER['REQUEST_METHOD'] == 'POST'){
      
     if(isset($_FILES) && isset($_POST)){
-        
-        // upload multiimages
-        for ($i=0; $i < sizeof($_FILES)  ; $i++) { 
-            // upload multi images and  save there path in array
-            $image_links[$i] = uploadimage($_FILES,$images_name[$i],$i);
-        }
-        try{
-            $stm = $dbc->prepare('INSERT INTO items (title,descreption,price,quantity,primary_image) values (:title,:desc,:price,:quantity,:primary)');
-            $stm->bindParam(':title',$_POST['title'], PDO::PARAM_STR);
-            $stm->bindParam(':desc',$_POST['description'], PDO::PARAM_STR);
-            $stm->bindParam(':price',$_POST['price'], PDO::PARAM_STR);
-            $stm->bindParam(':quantity',$_POST['quantity'], PDO::PARAM_STR);
-            $stm->bindParam(':primary',$image_links[0], PDO::PARAM_STR);
-            $stm->execute();
-            //getting the id of the last instert
-            $mylastinsertid =  $dbc->lastInsertId();
-            if(!empty($mylastinsertid)){
-                //adding images with the id we got from lastInsertId()
-                for ($i=1; $i < sizeof($image_links); $i++) { 
-                    $stm = $dbc->prepare('INSERT INTO pictures (url,product_id) values (:url,:id)');
-                    $stm->bindParam(':url',$image_links[$i], PDO::PARAM_STR);
-                    $stm->bindParam(':id',$mylastinsertid, PDO::PARAM_STR);
+        // if the method is add
+        if($_POST["method"] == "add"){
+               // upload multiimages
+                for ($i=0; $i < sizeof($_FILES)  ; $i++) { 
+                    // upload multi images and  save there path in array
+                    $image_links[$i] = uploadimage($_FILES,$images_name[$i],$i);
+                }
+                try{
+                    $stm = $dbc->prepare('INSERT INTO items (title,descreption,price,quantity,primary_image) values (:title,:desc,:price,:quantity,:primary)');
+                    $stm->bindParam(':title',$_POST['title'], PDO::PARAM_STR);
+                    $stm->bindParam(':desc',$_POST['description'], PDO::PARAM_STR);
+                    $stm->bindParam(':price',$_POST['price'], PDO::PARAM_STR);
+                    $stm->bindParam(':quantity',$_POST['quantity'], PDO::PARAM_STR);
+                    $stm->bindParam(':primary',$image_links[0], PDO::PARAM_STR);
                     $stm->execute();
-                }
-                if(!empty($mylastinsertid)){
-                    //adding colors
-                    for ($i=0; $i < sizeof($_POST["colors"]); $i++) { 
-                        $stm = $dbc->prepare('INSERT INTO item_color (item_id,color_id) values (:item_id,:color_id)');
-                        $stm->bindParam(':item_id',$mylastinsertid, PDO::PARAM_STR);
-                        $stm->bindParam(':color_id',$_POST["colors"][$i], PDO::PARAM_STR);
-                        $stm->execute();
+                    //getting the id of the last instert
+                    $mylastinsertid =  $dbc->lastInsertId();
+                    if(!empty($mylastinsertid)){
+                        //adding images with the id we got from lastInsertId()
+                        for ($i=1; $i < sizeof($image_links); $i++) { 
+                            $stm = $dbc->prepare('INSERT INTO pictures (url,product_id) values (:url,:id)');
+                            $stm->bindParam(':url',$image_links[$i], PDO::PARAM_STR);
+                            $stm->bindParam(':id',$mylastinsertid, PDO::PARAM_STR);
+                            $stm->execute();
+                        }
+                        if(!empty($mylastinsertid)){
+                            //adding colors
+                            for ($i=0; $i < sizeof($_POST["colors"]); $i++) { 
+                                $stm = $dbc->prepare('INSERT INTO item_color (item_id,color_id) values (:item_id,:color_id)');
+                                $stm->bindParam(':item_id',$mylastinsertid, PDO::PARAM_STR);
+                                $stm->bindParam(':color_id',$_POST["colors"][$i], PDO::PARAM_STR);
+                                $stm->execute();
+                            }
+                        }
+                        if(!empty($mylastinsertid)){
+                            //adding category
+                            for ($i=0; $i < sizeof($_POST["categories"]); $i++) { 
+                                $stm = $dbc->prepare('INSERT INTO item_category (items_id,category_id) values (:item_id,:category_id)');
+                                $stm->bindParam(':item_id',$mylastinsertid, PDO::PARAM_STR);
+                                $stm->bindParam(':category_id',$_POST["categories"][$i], PDO::PARAM_STR);
+                                $stm->execute();
+                            }
+                        }
+                    
                     }
+                }catch(Exception $e){
+                    // back to dashboard
+                // header("location:"."../products/addProductPage.php?statu=0");
+                echo $e;
                 }
-                if(!empty($mylastinsertid)){
-                    //adding category
-                    for ($i=0; $i < sizeof($_POST["categories"]); $i++) { 
-                        $stm = $dbc->prepare('INSERT INTO item_category (items_id,category_id) values (:item_id,:category_id)');
-                        $stm->bindParam(':item_id',$mylastinsertid, PDO::PARAM_STR);
-                        $stm->bindParam(':category_id',$_POST["categories"][$i], PDO::PARAM_STR);
-                        $stm->execute();
-                    }
+                //print_r($image_links);
                 }
-             
-            }
-        }catch(Exception $e){
-            // back to dashboard
-           // header("location:"."../products/addProductPage.php?statu=0");
-           echo $e;
-        }
-        //print_r($image_links);
+                // if the method is update
+               elseif($_POST["method"] == "update"){
+                    // take name of images
+
+                    // rename them with the exestence one 
+                    // upload them (that will cuz the new one to replace the old ones)
+                    print_r($_POST);
+                }
+               
+     
     }
-    header("location:"."../products/addProductPage.php?statu=1");
+  //  header("location:"."../products/addProductPage.php?statu=1");
     
  }
  if($_SERVER['REQUEST_METHOD'] == 'GET'){
@@ -83,10 +95,10 @@ $errors_uploading = array();
                 $stm = $dbc->prepare('DELETE FROM items where id = :id');
                 $stm->bindParam(':id',$_GET["id"], PDO::PARAM_STR);
                 $stm->execute();
-                header("location:". "../../pages/products.php?statu=1&id=". $_GET["id"]);
+                header("location:". "../../pages/products.php?id=". $_GET["id"]);
             } catch (Exception $ex) {
                 //throw $th;
-                header("location:". "../../pages/products.php?statu=0&id=". $_GET["id"]);
+                header("location:". "../../pages/products.php?id=". $_GET["id"]);
                 echo $ex;
             }
             //if the methode is update
