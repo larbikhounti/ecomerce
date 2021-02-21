@@ -43,9 +43,9 @@ try{
       <th scope="col"></th>
       <th scope="col"></th>
       <th scope="col">
-      <form class="column row" action="../functions/categories/c_manager.php?action=1" method="post">
+      <form class="column row" action="../functions/categories/c_manager.php?action=3" method="post">
         <input class=" input-group-sm" type="text" name="category" required>
-        <button class="btn btn-success">Add Category</button>
+        <button class="btn btn-success ml-2" type="submit">Add Category</button>
       </form>
       </th>
       
@@ -60,15 +60,14 @@ try{
                 <th scope='row'>". $key["id"] ."</th>
                 <td>". $key["name"] ."</td>
                 <td>
-                <a href='../functions/categories/c_manager.php?id=". $key["id"] ."&action=0'><Button class='btn btn-danger'>delete</Button></a>
+                <a href='../functions/categories/c_manager.php?id=". $key["id"] ."&action=2'><Button class='btn btn-danger'>delete</Button></a>
                 </td>
                 <td>
-                <a href='../functions/categories/c_manager.php?id=". $key["id"] ."&action=1'><Button class='btn btn-success'>Edit</Button></a>
                 </td>
                 <td>
-                <form class='column row' action='../functions/categories/c_manager.php?action=1' method='post'>
+                <form class='column row' action='../functions/categories/c_manager.php?id=". $key["id"] ."&action=1' method='POST'>
                 <input class=' input-group-sm' type='text' name='category' required>
-                <button class='btn btn-primary'>Update <i class='bi bi-pencil-square'></i></button>
+                <button class='btn btn-primary ml-2' type='submit'>Update <i class='bi bi-pencil-square'></i></button>
               </form>
                 </td>
                 

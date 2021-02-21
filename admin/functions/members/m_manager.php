@@ -21,10 +21,8 @@ include "../../includes/mysql_connections/connect.php";
                   $stm->execute();
                  // $data = $stm ->fetchAll(PDO::FETCH_ASSOC);
                  if($stm->rowcount()> 0){
-                  header("Location:"."../../pages/members.php?statu=user aproved successfuly");
+                  header("Location:"."../../pages/members.php?statu=1");
                  }
-
-              
                 }catch(Exception $e){
                     echo $e;
                     header("Location:"."../../pages/members.php?statu=0");
