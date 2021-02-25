@@ -14,11 +14,15 @@ $navbar = "<nav class='navbar navbar-expand-lg navbar-light bg-dark sticky-top'>
       <a class='nav-link' href='../pages/categories.php'>Categories<span class='sr-only'>(current)</span></a>
     </li>
     <li class='nav-item'>
+    <a class='nav-link' href='../pages/colors.php'>Colors</a>
+  </li> 
+    <li class='nav-item'>
       <a class='nav-link' href='../pages/members.php'>members</a>
     </li> 
     <li class='nav-item'>
     <a class='nav-link' href='../pages/products.php'>products</a>
-  </li> 
+  </li>
+   
   </ul>
   <div class='nav-item dropdown'>
   <div class='nav-link dropdown-toggle' id''navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>

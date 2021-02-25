@@ -9,14 +9,14 @@ if(!isset($_SESSION["id"]) || $_SESSION["privilege"] != 1 ){
 
 // get all the users who are not admin
 try{
-    $stm = $dbc->prepare('SELECT * from category ');
+    $stm = $dbc->prepare('SELECT * from Colors ');
     $stm->execute();
     $data = $stm ->fetchAll(PDO::FETCH_ASSOC);
     
 
   }catch(Exception $e){
       echo $e;
-      header("Location:"."./categories.php?statu=0");
+      header("Location:"."./Colors.php?statu=0");
   }
 ?>
 <!DOCTYPE html>
@@ -39,13 +39,13 @@ try{
   <thead class="thead-dark ">
     <tr>
       <th scope="col">ID</th>
-      <th scope="col">category </th>
+      <th scope="col">Color </th>
       <th scope="col"></th>
       <th scope="col"></th>
       <th scope="col">
-      <form class="column row" action="../functions/categories/c_manager.php?action=3" method="post">
-        <input class=" input-group-sm" type="text" name="category" required>
-        <button class="btn btn-success ml-2" type="submit">Add Category</button>
+      <form class="column row" action="../functions/colors/co_manager.php?action=3" method="post">
+        <input class=" input-group-sm" type="text" name="color" required>
+        <button class="btn btn-success ml-2" type="submit">Add Color</button>
       </form>
       </th>
       
@@ -60,13 +60,13 @@ try{
                   <th scope='row'>". $key["id"] ."</th>
                       <td>". $key["name"] ."</td>
                   <td>
-                      <a href='../functions/categories/c_manager.php?id=". $key["id"] ."&action=2'><Button class='btn btn-danger'>delete</Button></a>
+                      <a href='../functions/colors/co_manager.php?id=". $key["id"] ."&action=2'><Button class='btn btn-danger'>delete</Button></a>
                   </td>
                      <td>
                      </td>
                   <td>
-                  <form class='column row' action='../functions/categories/c_manager.php?id=". $key["id"] ."&action=1' method='POST'>
-                      <input class=' input-group-sm' type='text' name='category' required>
+                  <form class='column row' action='../functions/colors/co_manager.php?id=". $key["id"] ."&action=1' method='POST'>
+                      <input class=' input-group-sm' type='text' name='color' required>
                       <button class='btn btn-primary ml-2' type='submit'>Update <i class='bi bi-pencil-square'></i></button>
                   </form>
                   </td> 
