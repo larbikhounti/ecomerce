@@ -95,10 +95,10 @@ $errors_uploading = array();
                 $stm = $dbc->prepare('DELETE FROM items where id = :id');
                 $stm->bindParam(':id',$_GET["id"], PDO::PARAM_STR);
                 $stm->execute();
-                header("location:". "../../pages/products.php?id=". $_GET["id"]);
+               // header("location:". "../../pages/products.php?id=". $_GET["id"]);
             } catch (Exception $ex) {
                 //throw $th;
-                header("location:". "../../pages/products.php?id=". $_GET["id"]);
+               // header("location:". "../../pages/products.php?id=". $_GET["id"]);
                 echo $ex;
             }
             //if the methode is update
@@ -110,7 +110,7 @@ $errors_uploading = array();
 //upload image function 
 function uploadimage($file,$image,$i){
     // upload directory
-    $uploaddir = $_SERVER['DOCUMENT_ROOT'] . "/ecomerce/uploads/";
+    $uploaddir = $_SERVER['DOCUMENT_ROOT'] . "/ecomerce/admin/uploads/";
     //get type of the file
     $type = $file[$image]['type'];
     $image_type = explode('/',$type,2);
@@ -134,11 +134,11 @@ function uploadimage($file,$image,$i){
                     $mytime = time(); 
                    // rename image
 
-                  if(rename($_SERVER['DOCUMENT_ROOT'] . "/ecomerce/uploads/".$filename,$uploaddir.$mytime . $filename)){
+                  if(rename($_SERVER['DOCUMENT_ROOT'] . "/ecomerce/admin/uploads/".$filename,$uploaddir.$mytime . $filename)){
                          //get protocol
                          $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : 'http://';
                         //return image url
-                        return $protocol.$_SERVER['SERVER_NAME']. "/ecomerce/uploads/".$mytime.$filename ; // 1 = success
+                        return $protocol.$_SERVER['SERVER_NAME']. "/ecomerce/admin/uploads/".$mytime.$filename ; // 1 = success
                     }
                   
                 } else {
@@ -146,7 +146,7 @@ function uploadimage($file,$image,$i){
                    // return "failed to upload the image  ".$file[$image]['name']; // 0 = failed
                    $errors_uploading[$i] = "failed to upload the image  ".$file[$image]['name'];
                     "failed to upload the image  ".$file[$image]['name'];
-                    header("location:"."../products/addProductPage.php?statu=0");
+                   // header("location:"."../products/addProductPage.php?statu=0");
                 }
                 break; // break the loop
             }catch(Exception $ex){
@@ -154,7 +154,7 @@ function uploadimage($file,$image,$i){
             }
        }
     }
-    header("location:"."../products/addProductPage.php?statu=0");
+   // header("location:"."../products/addProductPage.php?statu=0");
    // return  ;
    
   
