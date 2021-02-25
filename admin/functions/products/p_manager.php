@@ -95,10 +95,10 @@ $errors_uploading = array();
                 $stm = $dbc->prepare('DELETE FROM items where id = :id');
                 $stm->bindParam(':id',$_GET["id"], PDO::PARAM_STR);
                 $stm->execute();
-               // header("location:". "../../pages/products.php?id=". $_GET["id"]);
+                header("location:". "../../pages/products.php?id=". $_GET["id"]);
             } catch (Exception $ex) {
                 //throw $th;
-               // header("location:". "../../pages/products.php?id=". $_GET["id"]);
+                header("location:". "../../pages/products.php?id=". $_GET["id"]);
                 echo $ex;
             }
             //if the methode is update
@@ -146,7 +146,7 @@ function uploadimage($file,$image,$i){
                    // return "failed to upload the image  ".$file[$image]['name']; // 0 = failed
                    $errors_uploading[$i] = "failed to upload the image  ".$file[$image]['name'];
                     "failed to upload the image  ".$file[$image]['name'];
-                   // header("location:"."../products/addProductPage.php?statu=0");
+                    header("location:"."../products/addProductPage.php?statu=0");
                 }
                 break; // break the loop
             }catch(Exception $ex){
@@ -154,7 +154,7 @@ function uploadimage($file,$image,$i){
             }
        }
     }
-   // header("location:"."../products/addProductPage.php?statu=0");
+    header("location:"."../products/addProductPage.php?statu=0");
    // return  ;
    
   
